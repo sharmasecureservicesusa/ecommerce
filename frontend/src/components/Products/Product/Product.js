@@ -35,8 +35,8 @@ const Product = (props) => {
                     {props.description}
                 </p>
                 <Button to={`/products/${props.id}`} btnType="Success">Detail</Button>
-                <Button to={`/products/${props.id}`} btnType="Danger">Edit</Button>
-                <Button to={`/products/${props.id}`} btnType="Danger">Delete</Button>
+                <Button clicked={props.editProduct} btnType="Danger">Edit</Button>
+                <Button clicked={props.deleteProduct} btnType="Danger">Delete</Button>
             </Card>
         )
     }

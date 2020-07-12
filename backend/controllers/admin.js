@@ -43,3 +43,23 @@ exports.postAddProduct = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.postDeleteProduct = async (req, res, next) => {
+    const productId = req.body.productId;
+    try {
+        const result = await Product.destroy({
+            where: {
+                id: productId
+            }
+        });
+        console.log(result);
+        res.status(201).json({
+            message: 'Product deleted successfully!'
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};

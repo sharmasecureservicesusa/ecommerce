@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    adminProducts: null,
+    adminProducts: [],
     adminRedirectPath: '/admin',
     loading: false,
     error: false,
@@ -36,8 +36,10 @@ const adminAddProductStart = (state, action) => {
 }
 
 const adminAddProductSuccess = (state, action) => {
+    const newProduct = action.newProduct
     return updateObject(state, {
         loading: false,
+        adminProduts: state.adminProducts.concat(newProduct),
         adminRedirectPath: '/admin'
     })
 }
@@ -50,8 +52,31 @@ const adminAddProductFail = (state, action) => {
     })
 }
 
+const adminDeleteProductStart = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const adminDeleteProductSuccess = (state, action) => {
+    const updatedProducts = state.adminProducts.filter(p => p.id !== action.productId)
+    return updateObject(state, {
+        loading: false,
+        adminProducts: updatedProducts,
+        adminRedirectPath: '/admin'
+    })
+}
+
+const adminDeleteProductFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error,
+        adminRedirectPath: '/admin'
+    })
+}
+
 const reducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.FETCH_ADMIN_PRODUCTS_START:
             return fetchAdminProductsStart(state, action)
         case actionTypes.FETCH_ADMIN_PRODUCTS_SUCCESS:
@@ -64,6 +89,12 @@ const reducer = (state = initialState, action) => {
             return adminAddProductSuccess(state, action)
         case actionTypes.ADMIN_ADD_PRODUCT_FAIL:
             return adminAddProductFail(state, action)
+        case actionTypes.ADMIN_DELETE_PRODUCT_START:
+            return adminDeleteProductStart(state, action)
+        case actionTypes.ADMIN_DELETE_PRODUCT_SUCCESS:
+            return adminDeleteProductSuccess(state, action)
+        case actionTypes.ADMIN_DELETE_PRODUCT_FAIL:
+            return adminDeleteProductFail(state, action)
         default:
             return state
     }

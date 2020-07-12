@@ -33,8 +33,26 @@ export function* adminAddProductSaga(action) {
                 Authorization: 'Bearer ' + action.token
             }
         })
-        yield put(actions.adminAddProductSuccess())
+        yield put(actions.adminAddProductSuccess(newProduct))
     } catch (error) {
         yield put(actions.adminAddProductFail(error))
+    }
+}
+
+export function* adminDeleteProductSaga(action) {
+    yield put(actions.adminDeleteProductStart())
+    let url = `http://localhost:8080/admin/delete-product`
+    let productToDelete = {
+        productId: action.productId
+    }
+    try {
+        yield axios.post(url, productToDelete, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        yield put(actions.adminDeleteProductSuccess(action.productId))
+    } catch (error) {
+        yield put(actions.adminDeleteProductFail(error))
     }
 }

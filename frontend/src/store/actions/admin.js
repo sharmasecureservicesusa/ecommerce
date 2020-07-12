@@ -45,15 +45,44 @@ export const adminAddProductStart = () => {
     }
 }
 
-export const adminAddProductSuccess = () => {
+export const adminAddProductSuccess = (newProduct) => {
     return {
-        type: actionTypes.ADMIN_ADD_PRODUCT_SUCCESS
+        type: actionTypes.ADMIN_ADD_PRODUCT_SUCCESS,
+        newProduct: newProduct
     }
 }
 
 export const adminAddProductFail = (error) => {
     return {
         type: actionTypes.ADMIN_ADD_PRODUCT_FAIL,
+        error: error
+    }
+}
+
+export const adminDeleteProduct = (token, productId) => {
+    return {
+        type: actionTypes.ADMIN_DELETE_PRODUCT,
+        token: token,
+        productId: productId
+    }
+}
+
+export const adminDeleteProductStart = () => {
+    return {
+        type: actionTypes.ADMIN_DELETE_PRODUCT_START
+    }
+}
+
+export const adminDeleteProductSuccess = (productId) => {
+    return {
+        type: actionTypes.ADMIN_DELETE_PRODUCT_SUCCESS,
+        productId: productId
+    }
+}
+
+export const adminDeleteProductFail = (error) => {
+    return {
+        type: actionTypes.ADMIN_DELETE_PRODUCT_FAIL,
         error: error
     }
 }

@@ -29,5 +29,9 @@ export {
     adminAddProduct,
     adminAddProductStart,
     adminAddProductSuccess,
-    adminAddProductFail
+    adminAddProductFail,
+    adminDeleteProduct,
+    adminDeleteProductStart,
+    adminDeleteProductSuccess,
+    adminDeleteProductFail
 } from './admin'

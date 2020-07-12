@@ -7,7 +7,6 @@ export function* fetchProductsSaga(action) {
     let url = 'http://localhost:8080/products/'
     try {
         const response = yield axios.get(url)
-        console.log('[fetchProductsSaga] response.data:', response.data)
         yield put(actions.fetchProductsSuccess(response.data.products))
     } catch (error) {
         yield put(actions.fetchProductsFail(error))

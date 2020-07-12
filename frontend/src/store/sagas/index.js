@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes'
 
 import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth'
 import { fetchProductsSaga, fetchSingleProductSaga } from './shop'
-import { fetchAdminProductsSaga, adminAddProductSaga } from './admin'
+import { fetchAdminProductsSaga, adminAddProductSaga, adminDeleteProductSaga } from './admin'
 
 export function* watchAuth() {
     yield all([
@@ -25,6 +25,7 @@ export function* watchProduct() {
 export function* watchAdmin() {
     yield all([
         yield takeEvery(actionTypes.FETCH_ADMIN_PRODUCTS, fetchAdminProductsSaga),
-        yield takeEvery(actionTypes.ADMIN_ADD_PRODUCT, adminAddProductSaga)
+        yield takeEvery(actionTypes.ADMIN_ADD_PRODUCT, adminAddProductSaga),
+        yield takeEvery(actionTypes.ADMIN_DELETE_PRODUCT, adminDeleteProductSaga)
     ])
 }
