@@ -82,20 +82,17 @@ const AddProduct = (props) => {
     }
 
     const history = useHistory()
-    const submitHandler = async (event) => {
+    let addProductRedirect = null
+    const submitHandler = (event) => {
         event.preventDefault()
-        try {
-            await props.onAdminAddProducts(
-                props.token,
-                productForm.title.value,
-                productForm.price.value,
-                productForm.imageUrl.value,
-                productForm.description.value
-            )
-            history.push(props.adminRedirectPath)
-        } catch (error) {
-            console.log('[AddProduct] error')
-        }
+        props.onAdminAddProducts(
+            props.token,
+            productForm.title.value,
+            productForm.price.value,
+            productForm.imageUrl.value,
+            productForm.description.value
+        )
+        history.push(props.adminRedirectPath)
     }
 
     const formElementsArray = []
@@ -133,7 +130,8 @@ const AddProduct = (props) => {
     return (
         <>
             <h1>AddProduct Page</h1>
-            <div className="Auth">
+            <div className="AddProduct">
+                {addProductRedirect}
                 <form onSubmit={submitHandler}>
                     {form}
                     {errorMessage}

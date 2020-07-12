@@ -26,15 +26,17 @@ exports.postAddProduct = async (req, res, next) => {
     const description = req.body.description;
 
     try {
-        const result = await Product.create({
+        const product = await Product.create({
             title: title,
             price: price,
             imageUrl: imageUrl,
             description: description,
             userId: req.userId
         });
+        // console.log('[postAddProduct] response', result);
         res.status(201).json({
-            message: 'Product created successfully!'
+            message: 'Product created successfully!',
+            product: product
         });
     } catch (err) {
         if (!err.statusCode) {
@@ -52,9 +54,33 @@ exports.postDeleteProduct = async (req, res, next) => {
                 id: productId
             }
         });
-        console.log(result);
         res.status(201).json({
             message: 'Product deleted successfully!'
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.postEditProduct = async (req, res, next) => {
+    const productId = req.params.productId;
+    try {
+        const product = await Product.findByPk({
+            where: {
+                id: productId
+            }
+        });
+        product.title = req.body.title;
+        product.price = req.body.price;
+        product.imageUrl = req.body.imageUrl;
+        product.description = req.body.description;
+        const result = await product.save();
+        console.log('[postEditProduct] result', result);
+        res.status(200).json({
+            product: product
         });
     } catch (err) {
         if (!err.statusCode) {

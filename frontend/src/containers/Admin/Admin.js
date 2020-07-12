@@ -13,6 +13,7 @@ const Admin = (props) => {
     const { onFetchAdminProducts, token, userId } = props
     useEffect(() => {
         onFetchAdminProducts(token, userId)
+        console.log('[component did mount refetch?]')
     }, [onFetchAdminProducts, token, userId])
 
     const deleteProductHandler = (token, productId) => {
@@ -20,23 +21,27 @@ const Admin = (props) => {
     }
 
     let products = <Spinner />
-    if (props.products) {
-        products = props.products.map(product => (
-            <Product
-                key={product.id}
-                id={product.id}
-                imageUrl={product.imageUrl}
-                title={product.title}
-                price={product.price}
-                description={product.description}
-                creatorId={product.userId}
-                isAdmin={true}
-                deleteProduct={() => deleteProductHandler(token, product.id)}
-            />
-        ))
+    if (props.products.length !== 0) {
+        products = props.products.map(product => {
+            return (
+                <Product
+                    key={product.id}
+                    id={product.id}
+                    imageUrl={product.imageUrl}
+                    title={product.title}
+                    price={product.price}
+                    description={product.description}
+                    creatorId={product.userId}
+                    isAdmin={true}
+                    deleteProduct={() => deleteProductHandler(token, product.id)}
+                />
+            )
+        })
         // products = <Products
         //     products={props.products}
         //     isAdmin={true} />
+    } else {
+        products = <h2>You have no products yet!</h2>
     }
 
     return (

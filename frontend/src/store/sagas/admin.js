@@ -28,12 +28,12 @@ export function* adminAddProductSaga(action) {
         description: action.description
     }
     try {
-        yield axios.post(url, newProduct, {
+        const response = yield axios.post(url, newProduct, {
             headers: {
                 Authorization: 'Bearer ' + action.token
             }
         })
-        yield put(actions.adminAddProductSuccess(newProduct))
+        yield put(actions.adminAddProductSuccess(response.data.product))
     } catch (error) {
         yield put(actions.adminAddProductFail(error))
     }
