@@ -37,13 +37,13 @@ const adminAddProductStart = (state, action) => {
 
 const adminAddProductSuccess = (state, action) => {
     const newProduct = action.newProduct
-    console.log('newProduct:', newProduct)
+    // console.log('newProduct:', newProduct)
     const newObj =  updateObject(state, {
         loading: false,
         adminProducts: state.adminProducts.concat(newProduct),
         adminRedirectPath: '/admin'
     })
-    console.log('newObj:', newObj)
+    // console.log('newObj:', newObj)
     return newObj
 }
 

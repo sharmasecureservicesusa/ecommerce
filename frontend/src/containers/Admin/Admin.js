@@ -2,44 +2,46 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
 
-// import Products from '../../components/Products/Products'
-import Product from '../../components/Products/Product/Product'
+import Products from '../../components/Products/Products'
+// import Product from '../../components/Products/Product/Product'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
 
 import './Admin.scss'
 
 const Admin = (props) => {
-    const { onFetchAdminProducts, token, userId } = props
+    const { onFetchAdminProducts, token, userId, adminProducts } = props
     useEffect(() => {
-        onFetchAdminProducts(token, userId)
-        console.log('[component did mount refetch?]')
-    }, [onFetchAdminProducts, token, userId])
+        if (!adminProducts)
+            onFetchAdminProducts(token, userId)
+    }, [onFetchAdminProducts, token, userId, adminProducts])
 
     const deleteProductHandler = (token, productId) => {
         props.onAdminDeleteProduct(token, productId)
     }
 
     let products = <Spinner />
-    if (props.products.length !== 0) {
-        products = props.products.map(product => {
-            return (
-                <Product
-                    key={product.id}
-                    id={product.id}
-                    imageUrl={product.imageUrl}
-                    title={product.title}
-                    price={product.price}
-                    description={product.description}
-                    creatorId={product.userId}
-                    isAdmin={true}
-                    deleteProduct={() => deleteProductHandler(token, product.id)}
-                />
-            )
-        })
-        // products = <Products
-        //     products={props.products}
-        //     isAdmin={true} />
+    if (adminProducts.length !== 0) {
+        // products = props.products.map(product => {
+        //     return (
+        //         <Product
+        //             key={product.id}
+        //             id={product.id}
+        //             imageUrl={product.imageUrl}
+        //             title={product.title}
+        //             price={product.price}
+        //             description={product.description}
+        //             creatorId={product.userId}
+        //             isAdmin={true}
+        //             deleteProduct={() => deleteProductHandler(token, product.id)}
+        //         />
+        //     )
+        // })
+        products = <Products
+            products={adminProducts}
+            isAdmin={true}
+            token={token}
+            deleteProduct={deleteProductHandler} />
     } else {
         products = <h2>You have no products yet!</h2>
     }
@@ -55,7 +57,7 @@ const Admin = (props) => {
 const mapStateToProps = state => {
     return {
         loading: state.admin.loading,
-        products: state.admin.adminProducts,
+        adminProducts: state.admin.adminProducts,
         token: state.auth.token,
         userId: state.auth.userId
     }

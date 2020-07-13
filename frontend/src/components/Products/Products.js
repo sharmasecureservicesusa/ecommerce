@@ -24,7 +24,7 @@ const Products = props => {
                     description={product.description}
                     creatorId={product.userId}
                     isAdmin={props.isAdmin}
-                    deleteProduct={props.deleteProduct}
+                    deleteProduct={() => props.deleteProduct(props.token, product.id)}
                 />
             ))}
         </ul>
