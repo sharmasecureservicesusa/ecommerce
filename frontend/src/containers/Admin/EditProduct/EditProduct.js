@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 
@@ -8,9 +8,9 @@ import Button from '../../../components/UI/Button/Button'
 import * as actions from '../../../store/actions/index'
 import { updateObject, checkValidity } from '../../../shared/utility'
 
-import './AddProduct.scss'
+import './EditProduct.scss'
 
-const AddProduct = (props) => {
+const EditProduct = (props) => {
     const [productForm, setProdctForm] = useState({
         title: {
             label: 'title',
@@ -70,6 +70,12 @@ const AddProduct = (props) => {
         }
     })
 
+    const productId = props.match.params.productId
+    const {onFetchSingleProduct} = props
+    useEffect(() => {
+        onFetchSingleProduct(productId)
+    }, [onFetchSingleProduct, productId])
+
     const inputChangeHandler = (event, controlName) => {
         const updatedControls = updateObject(productForm, {
             [controlName]: updateObject(productForm[controlName], {
@@ -81,22 +87,21 @@ const AddProduct = (props) => {
         setProdctForm(updatedControls)
     }
 
-    let addProductRedirect = null
+    let editProductRedirect = null
     const submitHandler = (event) => {
         event.preventDefault()
-        props.onAdminAddProduct(
+        props.onAdminEditProducts(
             props.token,
             productForm.title.value,
             productForm.price.value,
             productForm.imageUrl.value,
-            productForm.description.value
+            productForm.description.value,
+            productId
         )
-        // console.log('asyncronous after onAdminAddProducts')
-        // history.push(props.adminRedirectPath)
     }
 
-    if (props.productAdded) {
-        addProductRedirect = <Redirect to={props.adminRedirectPath}/>
+    if (props.productEdited) {
+        editProductRedirect = <Redirect to={props.adminRedirectPath}/>
     }
 
     const formElementsArray = []
@@ -133,9 +138,9 @@ const AddProduct = (props) => {
 
     return (
         <>
-            <h1>AddProduct Page</h1>
-            <div className="AddProduct">
-                {addProductRedirect}
+            <h1>EditProducts Page</h1>
+            <div className="EditProduct">
+                {editProductRedirect}
                 <form onSubmit={submitHandler}>
                     {form}
                     {errorMessage}
@@ -149,18 +154,20 @@ const AddProduct = (props) => {
 const mapStateToProps = state => {
     return {
         loading: state.admin.loading,
-        productAdded: state.admin.productAdded,
         error: state.admin.error,
+        productEdited: state.admin.productEdited,
         adminRedirectPath: state.admin.adminRedirectPath,
         token: state.auth.token,
         userId: state.auth.userId,
+        product: state.shop.product
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAdminAddProduct: (token, title, price, imageUrl, description) => dispatch(actions.adminAddProduct(token, title, price, imageUrl, description))
+        onFetchSingleProduct: (productId) => dispatch(actions.fetchSingleProduct(productId)),
+        onAdminEditProducts: (token, title, price, imageUrl, description, productId) => dispatch(actions.adminEditProduct(token, title, price, imageUrl, description, productId))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(EditProduct);

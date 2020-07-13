@@ -26,6 +26,7 @@ export {
     fetchAdminProductsStart,
     fetchAdminProductsSuccess,
     fetchAdminProductsFail,
+    adminAddProductInit,
     adminAddProduct,
     adminAddProductStart,
     adminAddProductSuccess,
@@ -33,5 +34,10 @@ export {
     adminDeleteProduct,
     adminDeleteProductStart,
     adminDeleteProductSuccess,
-    adminDeleteProductFail
+    adminDeleteProductFail,
+    adminEditProductInit,
+    adminEditProduct,
+    adminEditProductStart,
+    adminEditProductSuccess,
+    adminEditProductFail
 } from './admin'

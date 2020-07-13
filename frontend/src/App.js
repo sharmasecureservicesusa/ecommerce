@@ -29,6 +29,10 @@ const SingleProduct = React.lazy(() => {
   return import('./containers/SingleProduct/SingleProduct')
 })
 
+const EditProduct = React.lazy(() => {
+  return import('./containers/Admin/EditProduct/EditProduct')
+})
+
 const App = props => {
   const { onTryAutoSignup } = props
   useEffect(() => {
@@ -52,6 +56,7 @@ const App = props => {
         <Route path="/logout" component={Logout} />
         <Route path="/auth" render={(props) => <Auth {...props} />} />
         <Route path="/shop" render={(props) => <Shop {...props} />} />
+        <Route path="/products/:productId/edit" render={(props) => <EditProduct {...props} />} />
         <Route path="/products/:productId" render={(props) => <SingleProduct {...props} />} />
         <Route path="/admin/add-product" render={(props) => <AddProduct {...props} />} />
         <Route path="/admin" exact render={(props) => <Admin {...props} />} />

@@ -1,10 +1,10 @@
-import { takeEvery, all } from 'redux-saga/effects'
+import { takeEvery, all, takeLatest } from 'redux-saga/effects'
 
 import * as actionTypes from '../actions/actionTypes'
 
 import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth'
 import { fetchProductsSaga, fetchSingleProductSaga } from './shop'
-import { fetchAdminProductsSaga, adminAddProductSaga, adminDeleteProductSaga } from './admin'
+import { fetchAdminProductsSaga, adminAddProductSaga, adminDeleteProductSaga, adminEditProductSaga } from './admin'
 
 export function* watchAuth() {
     yield all([
@@ -17,15 +17,14 @@ export function* watchAuth() {
 
 export function* watchProduct() {
     yield all([
-        yield takeEvery(actionTypes.FETCH_SINGLE_PRODUCT, fetchSingleProductSaga),
-        yield takeEvery(actionTypes.FETCH_PRODUCTS, fetchProductsSaga)
+        takeEvery(actionTypes.FETCH_SINGLE_PRODUCT, fetchSingleProductSaga),
+        takeEvery(actionTypes.FETCH_PRODUCTS, fetchProductsSaga)
     ])
 }
 
 export function* watchAdmin() {
-    yield all([
-        yield takeEvery(actionTypes.FETCH_ADMIN_PRODUCTS, fetchAdminProductsSaga),
-        yield takeEvery(actionTypes.ADMIN_ADD_PRODUCT, adminAddProductSaga),
-        yield takeEvery(actionTypes.ADMIN_DELETE_PRODUCT, adminDeleteProductSaga)
-    ])
+    yield takeEvery(actionTypes.FETCH_ADMIN_PRODUCTS, fetchAdminProductsSaga)
+    yield takeLatest(actionTypes.ADMIN_ADD_PRODUCT, adminAddProductSaga)
+    yield takeLatest(actionTypes.ADMIN_DELETE_PRODUCT, adminDeleteProductSaga)
+    yield takeLatest(actionTypes.ADMIN_EDIT_PRODUCT, adminEditProductSaga)
 }

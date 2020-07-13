@@ -66,21 +66,17 @@ exports.postDeleteProduct = async (req, res, next) => {
 };
 
 exports.postEditProduct = async (req, res, next) => {
+    // console.log('[postEditProduct] req.body:', req.body);
     const productId = req.params.productId;
     try {
-        const product = await Product.findByPk({
-            where: {
-                id: productId
-            }
-        });
+        const product = await Product.findByPk(productId);
         product.title = req.body.title;
         product.price = req.body.price;
         product.imageUrl = req.body.imageUrl;
         product.description = req.body.description;
-        const result = await product.save();
-        console.log('[postEditProduct] result', result);
+        const updatedProduct = await product.save();
         res.status(200).json({
-            product: product
+            product: updatedProduct
         });
     } catch (err) {
         if (!err.statusCode) {

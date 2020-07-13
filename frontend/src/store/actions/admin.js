@@ -28,6 +28,12 @@ export const fetchAdminProductsFail = (error) => {
     }
 }
 
+export const adminAddProductInit = () => {
+    return {
+        type: actionTypes.ADMIN_ADD_PRODUCT_INIT
+    }
+}
+
 export const adminAddProduct = (token, title, price, imageUrl, description) => {
     return {
         type: actionTypes.ADMIN_ADD_PRODUCT,
@@ -83,6 +89,45 @@ export const adminDeleteProductSuccess = (productId) => {
 export const adminDeleteProductFail = (error) => {
     return {
         type: actionTypes.ADMIN_DELETE_PRODUCT_FAIL,
+        error: error
+    }
+}
+
+export const adminEditProductInit = () => {
+    return {
+        type: actionTypes.ADMIN_EDIT_PRODUCT_INIT
+    }
+}
+
+export const adminEditProduct = (token, title, price, imageUrl, description, productId) => {
+    return {
+        type: actionTypes.ADMIN_EDIT_PRODUCT,
+        token: token,
+        title: title,
+        price: price,
+        imageUrl: imageUrl,
+        description: description,
+        productId: productId
+    }
+}
+
+export const adminEditProductStart = () => {
+    return {
+        type: actionTypes.ADMIN_EDIT_PRODUCT_START
+    }
+}
+
+export const adminEditProductSuccess = (productId, editedProduct) => {
+    return {
+        type: actionTypes.ADMIN_EDIT_PRODUCT_SUCCESS,
+        productId: productId,
+        editedProduct: editedProduct,
+    }
+}
+
+export const adminEditProductFail = (error) => {
+    return {
+        type: actionTypes.ADMIN_EDIT_PRODUCT_FAIL,
         error: error
     }
 }

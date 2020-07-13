@@ -56,3 +56,24 @@ export function* adminDeleteProductSaga(action) {
         yield put(actions.adminDeleteProductFail(error))
     }
 }
+
+export function* adminEditProductSaga(action) {
+    yield put(actions.adminEditProductStart())
+    let url = `http://localhost:8080/admin/edit-product/` + action.productId
+    let EditedProduct = {
+        title: action.title,
+        price: action.price,
+        imageUrl: action.imageUrl,
+        description: action.description
+    }
+    try {
+        const response = yield axios.post(url, EditedProduct, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        yield put(actions.adminEditProductSuccess(response.data.product.id, response.data.product))
+    } catch (error) {
+        yield put(actions.adminEditProductFail(error))
+    } 
+}

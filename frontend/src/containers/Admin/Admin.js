@@ -10,11 +10,20 @@ import * as actions from '../../store/actions/index'
 import './Admin.scss'
 
 const Admin = (props) => {
-    const { onFetchAdminProducts, token, userId, adminProducts } = props
+    const {
+        onFetchAdminProducts,
+        onAdminAddProductInit,
+        onAdminEditProductInit,
+        token,
+        userId,
+        adminProducts
+    } = props
+    
     useEffect(() => {
-        if (!adminProducts)
-            onFetchAdminProducts(token, userId)
-    }, [onFetchAdminProducts, token, userId, adminProducts])
+        onAdminAddProductInit()
+        onAdminEditProductInit()
+        onFetchAdminProducts(token, userId)
+    }, [onFetchAdminProducts, onAdminAddProductInit, onAdminEditProductInit, token, userId])
 
     const deleteProductHandler = (token, productId) => {
         props.onAdminDeleteProduct(token, productId)
@@ -66,6 +75,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchAdminProducts: (token, userId) => dispatch(actions.fetchAdminProducts(token, userId)),
+        onAdminAddProductInit: () => dispatch(actions.adminAddProductInit()),
+        onAdminEditProductInit: () => dispatch(actions.adminEditProductInit()),
         onAdminDeleteProduct: (token, productId) => dispatch(actions.adminDeleteProduct(token, productId))
     }
 }

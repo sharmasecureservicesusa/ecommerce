@@ -3,6 +3,8 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     adminProducts: [],
+    productAdded: false,
+    productEdited: false,
     adminRedirectPath: '/admin',
     loading: false,
     error: false,
@@ -29,6 +31,12 @@ const fetchAdminProductsFail = (state, action) => {
     })
 }
 
+const adminAddProductInit = (state, action) => {
+    return updateObject(state, {
+        productAdded: false
+    })
+}
+
 const adminAddProductStart = (state, action) => {
     return updateObject(state, {
         loading: true
@@ -37,14 +45,12 @@ const adminAddProductStart = (state, action) => {
 
 const adminAddProductSuccess = (state, action) => {
     const newProduct = action.newProduct
-    // console.log('newProduct:', newProduct)
-    const newObj =  updateObject(state, {
+    return updateObject(state, {
         loading: false,
+        productAdded: true,
         adminProducts: state.adminProducts.concat(newProduct),
         adminRedirectPath: '/admin'
     })
-    // console.log('newObj:', newObj)
-    return newObj
 }
 
 const adminAddProductFail = (state, action) => {
@@ -78,6 +84,38 @@ const adminDeleteProductFail = (state, action) => {
     })
 }
 
+const adminEditProductInit = (state, action) => {
+    return updateObject(state, {
+        productEdited: false
+    })
+}
+
+const adminEditProductStart = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const adminEditProductSuccess = (state, action) => {
+    const idx = state.adminProducts.findIndex(product => product.id === action.productId)
+    const updatedProducts = [...state.adminProducts]
+    updatedProducts[idx] = action.editedProduct
+    return updateObject(state, {
+        loading: false,
+        productEdited: true,
+        adminProducts: updatedProducts,
+        adminRedirectPath: '/admin'
+    })
+}
+
+const adminEditProductFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error,
+        adminRedirectPath: '/admin'
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_ADMIN_PRODUCTS_START:
@@ -86,6 +124,8 @@ const reducer = (state = initialState, action) => {
             return fetchAdminProductsSuccess(state, action)
         case actionTypes.FETCH_ADMIN_PRODUCTS_FAIL:
             return fetchAdminProductsFail(state, action)
+        case actionTypes.ADMIN_ADD_PRODUCT_INIT:
+            return adminAddProductInit(state, action)
         case actionTypes.ADMIN_ADD_PRODUCT_START:
             return adminAddProductStart(state, action)
         case actionTypes.ADMIN_ADD_PRODUCT_SUCCESS:
@@ -98,6 +138,14 @@ const reducer = (state = initialState, action) => {
             return adminDeleteProductSuccess(state, action)
         case actionTypes.ADMIN_DELETE_PRODUCT_FAIL:
             return adminDeleteProductFail(state, action)
+        case actionTypes.ADMIN_EDIT_PRODUCT_INIT:
+            return adminEditProductInit(state, action)
+        case actionTypes.ADMIN_EDIT_PRODUCT_START:
+            return adminEditProductStart(state, action)
+        case actionTypes.ADMIN_EDIT_PRODUCT_SUCCESS:
+            return adminEditProductSuccess(state, action)
+        case actionTypes.ADMIN_EDIT_PRODUCT_FAIL:
+            return adminEditProductFail(state, action)
         default:
             return state
     }
