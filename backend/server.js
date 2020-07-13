@@ -22,9 +22,9 @@ app.use(
     })
 );
 
-app.use('/admin', adminRoutes);
-app.use('/auth', authRoutes);
-app.use(shopRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api', shopRoutes);
 
 
 // error handler, all thrown errors will reach here

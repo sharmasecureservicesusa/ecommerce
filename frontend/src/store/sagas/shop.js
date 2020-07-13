@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export function* fetchProductsSaga(action) {
     yield put(actions.fetchProductsStart())
-    let url = 'http://localhost:8080/products/'
+    let url = 'http://localhost:8080/api/products/'
     try {
         const response = yield axios.get(url)
         yield put(actions.fetchProductsSuccess(response.data.products))
@@ -15,7 +15,7 @@ export function* fetchProductsSaga(action) {
 
 export function* fetchSingleProductSaga(action) {
     yield put(actions.fetchSingleProductStart())
-    let url = 'http://localhost:8080/products/' + action.productId
+    let url = 'http://localhost:8080/api/products/' + action.productId
     try {
         const response = yield axios.get(url)
         console.log('[fetchSingleProductSaga] response.data:', response.data)

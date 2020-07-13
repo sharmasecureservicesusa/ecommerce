@@ -22,7 +22,7 @@ export function* authUserSaga(action) {
         email: action.email,
         password: action.password,
     }
-    let url = 'http://localhost:8080/auth/login'
+    let url = 'http://localhost:8080/api/auth/login'
     if (action.isSignup) {
         authData = {
             first_name: action.firstName,
@@ -30,7 +30,7 @@ export function* authUserSaga(action) {
             email: action.email,
             password: action.password,
         }
-        url = 'http://localhost:8080/auth/signup'
+        url = 'http://localhost:8080/api/auth/signup'
     }
     try {
         const response = yield axios.post(url, authData)

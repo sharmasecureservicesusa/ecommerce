@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export function* fetchAdminProductsSaga(action) {
     yield put(actions.fetchAdminProductsStart())
-    let url = 'http://localhost:8080/admin/products/'
+    let url = 'http://localhost:8080/api/admin/products/'
     try {
         const response = yield axios.get(url, {
             headers: {
@@ -20,7 +20,7 @@ export function* fetchAdminProductsSaga(action) {
 
 export function* adminAddProductSaga(action) {
     yield put(actions.adminAddProductStart())
-    let url = `http://localhost:8080/admin/add-product`
+    let url = `http://localhost:8080/api/admin/add-product`
     let newProduct = {
         title: action.title,
         price: action.price,
@@ -41,7 +41,7 @@ export function* adminAddProductSaga(action) {
 
 export function* adminDeleteProductSaga(action) {
     yield put(actions.adminDeleteProductStart())
-    let url = `http://localhost:8080/admin/delete-product`
+    let url = `http://localhost:8080/api/admin/delete-product`
     let productToDelete = {
         productId: action.productId
     }
@@ -59,7 +59,7 @@ export function* adminDeleteProductSaga(action) {
 
 export function* adminEditProductSaga(action) {
     yield put(actions.adminEditProductStart())
-    let url = `http://localhost:8080/admin/edit-product/` + action.productId
+    let url = `http://localhost:8080/api/admin/edit-product/` + action.productId
     let EditedProduct = {
         title: action.title,
         price: action.price,
