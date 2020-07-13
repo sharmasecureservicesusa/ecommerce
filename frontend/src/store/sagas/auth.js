@@ -1,11 +1,12 @@
 import { put, delay, call } from 'redux-saga/effects'
 import * as actions from '../actions/index'
 import axios from 'axios'
+import localForage from "localforage"
 
 export function* logoutSaga(action) {
-    yield call([localStorage, 'removeItem'], "token")
-    yield call([localStorage, 'removeItem'], "expirationDate")
-    yield call([localStorage, 'removeItem'], "userId")
+    yield call([localForage, 'removeItem'], "token")
+    yield call([localForage, 'removeItem'], "expirationDate")
+    yield call([localForage, 'removeItem'], "userId")
     yield put(actions.logoutSucceed())
 }
 
@@ -42,9 +43,9 @@ export function* authUserSaga(action) {
         console.log('[authUserSaga] login success')
         const remainingMilliseconds = 60 * 60 * 1000;
         const expirationDate = yield new Date(new Date().getTime() + remainingMilliseconds)
-        yield localStorage.setItem('token', response.data.token)
-        yield localStorage.setItem('expirationDate', expirationDate)
-        yield localStorage.setItem('userId', response.data.userId)
+        yield localForage.setItem('token', response.data.token)
+        yield localForage.setItem('expirationDate', expirationDate)
+        yield localForage.setItem('userId', response.data.userId)
         yield put(actions.authSuccess(response.data.token, response.data.userId))
         yield put(actions.checkAuthTimeout(remainingMilliseconds))
     } catch (error) {
@@ -53,15 +54,15 @@ export function* authUserSaga(action) {
 }
 
 export function* authCheckStateSaga(action) {
-    const token = yield localStorage.getItem('token')
+    const token = yield localForage.getItem('token')
     if (!token) {
         yield put(actions.logout())
     } else {
-        const expirationDate = yield new Date(localStorage.getItem('expirationDate'))
+        const expirationDate = yield new Date(localForage.getItem('expirationDate'))
         if (expirationDate < new Date()) {
             yield put(actions.logout())
         } else {
-            const userId = yield localStorage.getItem('userId')
+            const userId = yield localForage.getItem('userId')
             yield put(actions.authSuccess(token, userId))
             // console.log('diff = ', expirationDate.getTime() - new Date().getTime())
             yield put(actions.checkAuthTimeout((expirationDate.getTime() - new Date().getTime())))

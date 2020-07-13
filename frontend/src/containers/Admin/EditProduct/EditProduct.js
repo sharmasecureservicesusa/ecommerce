@@ -75,7 +75,6 @@ const EditProduct = (props) => {
     const { onFetchAdminSingleProduct, token, userId } = props
     useEffect(() => {
         onFetchAdminSingleProduct(token, userId, productId)
-        console.log('[EditProduct] product fetched')
     }, [onFetchAdminSingleProduct, token, userId, productId])
 
 
