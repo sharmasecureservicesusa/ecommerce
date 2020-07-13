@@ -1,5 +1,11 @@
 import * as actionTypes from './actionTypes'
 
+export const adminStateInit = () => {
+    return {
+        type: actionTypes.ADMIN_STATE_INIT
+    }
+}
+
 export const fetchAdminProducts = (token, userId) => {
     return {
         type: actionTypes.FETCH_ADMIN_PRODUCTS,
@@ -28,9 +34,32 @@ export const fetchAdminProductsFail = (error) => {
     }
 }
 
-export const adminAddProductInit = () => {
+export const fetchAdminSingleProduct = (token, userId, productId) => {
     return {
-        type: actionTypes.ADMIN_ADD_PRODUCT_INIT
+        type: actionTypes.FETCH_ADMIN_SINGLE_PRODUCT,
+        productId,
+        token: token,
+        userId: userId
+    }
+}
+
+export const fetchAdminSingleProductStart = () => {
+    return {
+        type: actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_START,
+    }
+}
+
+export const fetchAdminSingleProductSuccess = (product) => {
+    return {
+        type: actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_SUCCESS,
+        product: product
+    }
+}
+
+export const fetchAdminSingleProductFail = (error) => {
+    return {
+        type: actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_FAIL,
+        error: error
     }
 }
 
@@ -90,12 +119,6 @@ export const adminDeleteProductFail = (error) => {
     return {
         type: actionTypes.ADMIN_DELETE_PRODUCT_FAIL,
         error: error
-    }
-}
-
-export const adminEditProductInit = () => {
-    return {
-        type: actionTypes.ADMIN_EDIT_PRODUCT_INIT
     }
 }
 

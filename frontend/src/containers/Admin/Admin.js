@@ -12,18 +12,16 @@ import './Admin.scss'
 const Admin = (props) => {
     const {
         onFetchAdminProducts,
-        onAdminAddProductInit,
-        onAdminEditProductInit,
+        onAdminStateInit,
         token,
         userId,
         adminProducts
     } = props
-    
+
     useEffect(() => {
-        onAdminAddProductInit()
-        onAdminEditProductInit()
+        onAdminStateInit()
         onFetchAdminProducts(token, userId)
-    }, [onFetchAdminProducts, onAdminAddProductInit, onAdminEditProductInit, token, userId])
+    }, [onFetchAdminProducts, onAdminStateInit, token, userId])
 
     const deleteProductHandler = (token, productId) => {
         props.onAdminDeleteProduct(token, productId)
@@ -75,8 +73,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchAdminProducts: (token, userId) => dispatch(actions.fetchAdminProducts(token, userId)),
-        onAdminAddProductInit: () => dispatch(actions.adminAddProductInit()),
-        onAdminEditProductInit: () => dispatch(actions.adminEditProductInit()),
+        onAdminStateInit: () => dispatch(actions.adminStateInit()),
         onAdminDeleteProduct: (token, productId) => dispatch(actions.adminDeleteProduct(token, productId))
     }
 }

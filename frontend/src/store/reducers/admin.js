@@ -3,11 +3,20 @@ import { updateObject } from '../../shared/utility';
 
 const initialState = {
     adminProducts: [],
+    product: null,
     productAdded: false,
     productEdited: false,
     adminRedirectPath: '/admin',
     loading: false,
     error: false,
+}
+
+const adminStateInit = (state, action) => {
+    return updateObject(state, {
+        product: null,
+        productAdded: false,
+        productEdited: false
+    })
 }
 
 const fetchAdminProductsStart = (state, action) => {
@@ -31,9 +40,23 @@ const fetchAdminProductsFail = (state, action) => {
     })
 }
 
-const adminAddProductInit = (state, action) => {
+const fetchAdminSingleProductStart = (state, action) => {
     return updateObject(state, {
-        productAdded: false
+        loading: true
+    })
+}
+
+const fetchAdminSingleProductSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        product: action.product
+    })
+}
+
+const fetchAdminSingleProductFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error
     })
 }
 
@@ -84,12 +107,6 @@ const adminDeleteProductFail = (state, action) => {
     })
 }
 
-const adminEditProductInit = (state, action) => {
-    return updateObject(state, {
-        productEdited: false
-    })
-}
-
 const adminEditProductStart = (state, action) => {
     return updateObject(state, {
         loading: true
@@ -118,14 +135,20 @@ const adminEditProductFail = (state, action) => {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
+        case actionTypes.ADMIN_STATE_INIT:
+            return adminStateInit(state, action)
         case actionTypes.FETCH_ADMIN_PRODUCTS_START:
             return fetchAdminProductsStart(state, action)
         case actionTypes.FETCH_ADMIN_PRODUCTS_SUCCESS:
             return fetchAdminProductsSuccess(state, action)
         case actionTypes.FETCH_ADMIN_PRODUCTS_FAIL:
             return fetchAdminProductsFail(state, action)
-        case actionTypes.ADMIN_ADD_PRODUCT_INIT:
-            return adminAddProductInit(state, action)
+        case actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_START:
+            return fetchAdminSingleProductStart(state, action)
+        case actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_SUCCESS:
+            return fetchAdminSingleProductSuccess(state, action)
+        case actionTypes.FETCH_ADMIN_SINGLE_PRODUCT_FAIL:
+            return fetchAdminSingleProductFail(state, action)
         case actionTypes.ADMIN_ADD_PRODUCT_START:
             return adminAddProductStart(state, action)
         case actionTypes.ADMIN_ADD_PRODUCT_SUCCESS:
@@ -138,8 +161,6 @@ const reducer = (state = initialState, action) => {
             return adminDeleteProductSuccess(state, action)
         case actionTypes.ADMIN_DELETE_PRODUCT_FAIL:
             return adminDeleteProductFail(state, action)
-        case actionTypes.ADMIN_EDIT_PRODUCT_INIT:
-            return adminEditProductInit(state, action)
         case actionTypes.ADMIN_EDIT_PRODUCT_START:
             return adminEditProductStart(state, action)
         case actionTypes.ADMIN_EDIT_PRODUCT_SUCCESS:

@@ -65,9 +65,25 @@ exports.postDeleteProduct = async (req, res, next) => {
     }
 };
 
-exports.postEditProduct = async (req, res, next) => {
-    // console.log('[postEditProduct] req.body:', req.body);
+exports.getEditProduct = async (req, res, next) => {
     const productId = req.params.productId;
+    try {
+        const product = await Product.findByPk(productId);
+        res.status(200).json({
+            product: product
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+};
+
+exports.postEditProduct = async (req, res, next) => {
+    console.log('[postEditProduct] req.body.productId:', req.body.productId);
+    // const productId = req.params.productId;
+    const productId = req.body.productId;
     try {
         const product = await Product.findByPk(productId);
         product.title = req.body.title;

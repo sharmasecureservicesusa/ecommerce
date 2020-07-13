@@ -22,11 +22,15 @@ export {
 } from './shop'
 
 export {
+    adminStateInit,
     fetchAdminProducts,
     fetchAdminProductsStart,
     fetchAdminProductsSuccess,
     fetchAdminProductsFail,
-    adminAddProductInit,
+    fetchAdminSingleProduct,
+    fetchAdminSingleProductStart,
+    fetchAdminSingleProductSuccess,
+    fetchAdminSingleProductFail,
     adminAddProduct,
     adminAddProductStart,
     adminAddProductSuccess,
@@ -35,7 +39,6 @@ export {
     adminDeleteProductStart,
     adminDeleteProductSuccess,
     adminDeleteProductFail,
-    adminEditProductInit,
     adminEditProduct,
     adminEditProductStart,
     adminEditProductSuccess,

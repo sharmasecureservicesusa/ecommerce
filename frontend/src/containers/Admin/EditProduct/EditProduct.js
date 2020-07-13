@@ -69,12 +69,42 @@ const EditProduct = (props) => {
             touched: false
         }
     })
+    const [isFormEmpty, setIsFormEmpty] = useState(true)
 
     const productId = props.match.params.productId
-    const {onFetchSingleProduct} = props
+    const { onFetchAdminSingleProduct, token, userId } = props
     useEffect(() => {
-        onFetchSingleProduct(productId)
-    }, [onFetchSingleProduct, productId])
+        onFetchAdminSingleProduct(token, userId, productId)
+        console.log('[EditProduct] product fetched')
+    }, [onFetchAdminSingleProduct, token, userId, productId])
+
+
+    if (isFormEmpty && props.fetchedProduct) {
+        const updatedForm = updateObject(productForm, {
+            title: {
+                value: props.fetchedProduct.title,
+                valid: true,
+                touched: true
+            },
+            price: {
+                value: props.fetchedProduct.price,
+                valid: true,
+                touched: true
+            },
+            imageUrl: {
+                value: props.fetchedProduct.imageUrl,
+                valid: true,
+                touched: true
+            },
+            description: {
+                value: props.fetchedProduct.description,
+                valid: true,
+                touched: true
+            }
+        })
+        setProdctForm(updatedForm)
+        setIsFormEmpty(false)
+    }
 
     const inputChangeHandler = (event, controlName) => {
         const updatedControls = updateObject(productForm, {
@@ -101,7 +131,7 @@ const EditProduct = (props) => {
     }
 
     if (props.productEdited) {
-        editProductRedirect = <Redirect to={props.adminRedirectPath}/>
+        editProductRedirect = <Redirect to={props.adminRedirectPath} />
     }
 
     const formElementsArray = []
@@ -159,13 +189,13 @@ const mapStateToProps = state => {
         adminRedirectPath: state.admin.adminRedirectPath,
         token: state.auth.token,
         userId: state.auth.userId,
-        product: state.shop.product
+        fetchedProduct: state.admin.product
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchSingleProduct: (productId) => dispatch(actions.fetchSingleProduct(productId)),
+        onFetchAdminSingleProduct: (token, userId, productId) => dispatch(actions.fetchAdminSingleProduct(token, userId, productId)),
         onAdminEditProducts: (token, title, price, imageUrl, description, productId) => dispatch(actions.adminEditProduct(token, title, price, imageUrl, description, productId))
     }
 }

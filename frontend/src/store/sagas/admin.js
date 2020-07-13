@@ -18,6 +18,22 @@ export function* fetchAdminProductsSaga(action) {
     }
 }
 
+export function* fetchAdminSingleProductSaga(action) {
+    yield put(actions.fetchAdminSingleProductStart())
+    let url = 'http://localhost:8080/api/admin/edit-product/' + action.productId
+    try {
+        const response = yield axios.get(url, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        // console.log('[fetchAdminProductsSaga] response.data:', response.data)
+        yield put(actions.fetchAdminSingleProductSuccess(response.data.product))
+    } catch (error) {
+        yield put(actions.fetchAdminSingleProductFail(error))
+    }
+}
+
 export function* adminAddProductSaga(action) {
     yield put(actions.adminAddProductStart())
     let url = `http://localhost:8080/api/admin/add-product`
@@ -59,8 +75,9 @@ export function* adminDeleteProductSaga(action) {
 
 export function* adminEditProductSaga(action) {
     yield put(actions.adminEditProductStart())
-    let url = `http://localhost:8080/api/admin/edit-product/` + action.productId
+    let url = `http://localhost:8080/api/admin/edit-product`
     let EditedProduct = {
+        productId: action.productId,
         title: action.title,
         price: action.price,
         imageUrl: action.imageUrl,
