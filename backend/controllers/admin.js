@@ -7,8 +7,6 @@ exports.getAdminProducts = async (req, res, next) => {
         //         userId: req.userId
         //     }
         // });
-        console.log('req.user:');
-        console.log(req.user);
         const products = await req.user.getProducts();
         // console.log('[getAdminProducts] products:', products);
         res.status(200).json({
