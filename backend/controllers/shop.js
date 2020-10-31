@@ -35,12 +35,14 @@ exports.getProduct = async (req, res, next) => {
 exports.getCart = async (req, res, next) => {
     try {
         console.log('start getting cart');
-        const cart = await Cart.find({
-            where: {
-                userId: 1
-            }
-        });
-        const products = await cart[0].getProducts();
+        const cart = await req.user.getCart()
+        const products = await cart.getProducts();
+        // const cart = await Cart.find({
+        //     where: {
+        //         userId: 1
+        //     }
+        // });
+        // const products = await cart[0].getProducts();
         res.status(200).json({
             products: products
         });

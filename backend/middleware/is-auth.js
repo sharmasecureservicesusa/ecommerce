@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 
+const User = require('../models/user');
+
 // to protect routes that require authentication
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     if (req.method == 'OPTIONS') {
         return next();
     }
@@ -19,7 +21,12 @@ module.exports = (req, res, next) => {
             throw error;
         }
 
-        req.userId = decodedToken.id;
+        // req.userId = decodedToken.id;
+
+        // put user into req.user after login
+        // maybe we can put it in global variable (req.local.user) after login
+        const user = await User.findOne({ where: { id: decodedToken.id } });
+        req.user = user;
         next();
     } catch (err) {
         const error = new Error('Authentication failed!', 403);

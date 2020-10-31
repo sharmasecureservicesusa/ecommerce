@@ -2,11 +2,14 @@ const Product = require('../models/product');
 
 exports.getAdminProducts = async (req, res, next) => {
     try {
-        const products = await Product.findAll({
-            where: {
-                userId: req.userId
-            }
-        });
+        // const products = await Product.findAll({
+        //     where: {
+        //         userId: req.userId
+        //     }
+        // });
+        console.log('req.user:');
+        console.log(req.user);
+        const products = await req.user.getProducts();
         // console.log('[getAdminProducts] products:', products);
         res.status(200).json({
             products: products
@@ -26,12 +29,18 @@ exports.postAddProduct = async (req, res, next) => {
     const description = req.body.description;
 
     try {
-        const product = await Product.create({
+        // const product = await Product.create({
+        //     title: title,
+        //     price: price,
+        //     imageUrl: imageUrl,
+        //     description: description,
+        //     userId: req.userId
+        // });
+        const product = await req.user.createProduct({
             title: title,
             price: price,
             imageUrl: imageUrl,
             description: description,
-            userId: req.userId
         });
         // console.log('[postAddProduct] response', result);
         res.status(201).json({
@@ -68,7 +77,8 @@ exports.postDeleteProduct = async (req, res, next) => {
 exports.getEditProduct = async (req, res, next) => {
     const productId = req.params.productId;
     try {
-        const product = await Product.findByPk(productId);
+        // const product = await Product.findByPk(productId);
+        const product = req.user.getProducts({ where: { id: productId } })[0];
         res.status(200).json({
             product: product
         });
