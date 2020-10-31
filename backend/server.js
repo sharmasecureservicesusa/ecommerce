@@ -6,6 +6,8 @@ const sequelize = require('./database/db');
 
 const User = require('./models/user');
 const Product = require('./models/product');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -37,12 +39,19 @@ app.use((error, req, res, next) => {
 });
 
 // define table relations
+// user <--> product (many-to-one)
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+// cart <--> user (one-to-one)
+User.hasOne(Cart);
+Cart.belongsTo(User);
+// cart <--> product (many-to-many)
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 (async () => {
     try {
-        let result = await sequelize.sync();
+        let result = await sequelize.sync(/*{ force: true }*/);
         app.listen(PORT, () => {
             console.log('😎 server listening to port ' + PORT);
         })

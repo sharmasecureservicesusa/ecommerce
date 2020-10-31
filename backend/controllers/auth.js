@@ -5,6 +5,7 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const User = require('../models/user');
+const Cart = require('../models/cart');
 
 
 exports.signup = async (req, res, next) => {
@@ -23,6 +24,9 @@ exports.signup = async (req, res, next) => {
             created: new Date()
         }
         const createdUser = await User.create(userData);
+        const createdCart = await Cart.create({ userId: createdUser.id });
+        // const createdCart = await createdUser.createCart();
+
         // sign user in after signup, or redirect to login page in frontend
         res.status(201).json({
             message: 'Signup succeeded!'

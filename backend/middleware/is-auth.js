@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
         req.userId = decodedToken.id;
         next();
     } catch (err) {
-        const error = new HttpError('Authentication failed!', 403);
+        const error = new Error('Authentication failed!', 403);
         return next(error);
     }
 };
