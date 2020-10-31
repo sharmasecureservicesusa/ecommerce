@@ -4,6 +4,7 @@ import { updateObject } from '../../shared/utility';
 const initialState = {
     products: [],
     product: null, // single product
+    cartItems: [],
     loading: false,
     error: false,
 }
@@ -48,6 +49,26 @@ const fetchSingleProductFail = (state, action) => {
     })
 }
 
+const fetchCartStart = (state, action) => {
+    return updateObject(state, {
+        loading: true,
+    })
+}
+
+const fetchCartSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        cartItems: action.cartItems
+    })
+}
+
+const fetchCartFail = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        error: action.error
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_PRODUCTS_START:
@@ -62,6 +83,12 @@ const reducer = (state = initialState, action) => {
             return fetchSingleProductSuccess(state, action)
         case actionTypes.FETCH_SINGLE_PRODUCT_FAIL:
             return fetchSingleProductFail(state, action)
+        case actionTypes.FETCH_CART_START:
+            return fetchCartStart(state, action)
+        case actionTypes.FETCH_CART_SUCCESS:
+            return fetchCartSuccess(state, action)
+        case actionTypes.FETCH_CART_FAIL:
+            return fetchCartFail(state, action)
         default:
             return state
     }

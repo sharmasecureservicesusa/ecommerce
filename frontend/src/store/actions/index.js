@@ -18,7 +18,11 @@ export {
     fetchSingleProduct,
     fetchSingleProductStart,
     fetchSingleProductSuccess,
-    fetchSingleProductFail
+    fetchSingleProductFail,
+    fetchCart,
+    fetchCartStart,
+    fetchCartSuccess,
+    fetchCartFail
 } from './shop'
 
 export {

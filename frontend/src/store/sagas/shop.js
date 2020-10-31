@@ -24,3 +24,19 @@ export function* fetchSingleProductSaga(action) {
         yield put(actions.fetchSingleProductFail(error))
     }
 }
+
+export function* fetchCartSaga(action) {
+    yield put(actions.fetchCartStart())
+    let url = 'http://localhost:8080/api/cart/'
+    try {
+        const response = yield axios.get(url, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        console.log('[fetchCartSaga] response.data:', response.data)
+        yield put(actions.fetchCartSuccess(response.data.products))
+    } catch (error) {
+        yield put(actions.fetchCartFail(error))
+    }
+}
