@@ -23,6 +23,7 @@ const Products = props => {
                     price={product.price}
                     description={product.description}
                     creatorId={product.userId}
+                    isAuth={props.isAuth}
                     isAdmin={props.isAdmin}
                     cartAddProduct={() => props.cartAddProduct(props.token, product.id)}
                     deleteProduct={() => props.deleteProduct(props.token, product.id)}

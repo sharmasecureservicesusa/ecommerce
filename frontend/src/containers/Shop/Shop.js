@@ -24,6 +24,7 @@ const Shop = (props) => {
         products = <Products
             products={props.products}
             token={props.token}
+            isAuth={props.isAuthenticated}
             cartAddProduct={cartAddProductHandler} />
     }
 
@@ -39,6 +40,7 @@ const mapStateToProps = state => {
     return {
         loading: state.shop.loading,
         token: state.auth.token,
+        isAuthenticated: state.auth.token !== null,
         products: state.shop.products
     }
 }

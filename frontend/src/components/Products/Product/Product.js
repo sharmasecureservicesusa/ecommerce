@@ -19,7 +19,7 @@ const Product = (props) => {
                 {props.description}
             </p>
             <Button to={`/products/${props.id}`} btnType="Success">Detail</Button>
-            <Button clicked={props.cartAddProduct} btnType="Success">Add To Cart</Button>
+            {props.isAuth ? <Button clicked={props.cartAddProduct} btnType="Success">Add To Cart</Button> : null}
         </Card>
     )
     if (props.isAdmin) {
