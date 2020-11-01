@@ -3,11 +3,15 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 require('dotenv').config();
 const sequelize = require('./database/db');
+const sequelizeErd = require('sequelize-erd');
+const { writeFileSync } = require('fs');
 
 const User = require('./models/user');
 const Product = require('./models/product');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const Order = require('./models/order');
+const OrderItem = require('./models/order-item');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -39,7 +43,7 @@ app.use((error, req, res, next) => {
 });
 
 // define table relations
-// user <--> product (many-to-one)
+// user <--> product (one-to-many)
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
 // cart <--> user (one-to-one)
@@ -48,10 +52,18 @@ Cart.belongsTo(User);
 // cart <--> product (many-to-many)
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+// order <--> user (one-to-many)
+Order.belongsTo(User)
+User.hasMany(Order)
+// order <--> product (many-to-many)
+Order.belongsToMany(Product, { through: OrderItem });
+Product.belongsToMany(Order, { through: OrderItem });
 
 (async () => {
     try {
         let result = await sequelize.sync(/*{ force: true }*/);
+        const svg = await sequelizeErd({ engine: 'neato', source: result, arrowSize: 1.2, lineWidth: 1 });
+        writeFileSync('./erd.svg', svg);
         app.listen(PORT, () => {
             console.log('😎 server listening to port ' + PORT);
         })

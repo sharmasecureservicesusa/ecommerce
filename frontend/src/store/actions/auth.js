@@ -22,9 +22,6 @@ export const authFail = (error) => {
 }
 
 export const logout = () => {
-    // localForage.removeItem('token')
-    // localForage.removeItem('expirationDate')
-    // localForage.removeItem('userId')
     return {
         type: actionTypes.AUTH_INITIATE_LOGOUT
     }

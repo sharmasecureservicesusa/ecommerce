@@ -1,6 +1,4 @@
 const Product = require('../models/product');
-const Cart = require('../models/cart');
-const CartItem = require('../models/cart-item');
 
 exports.getProducts = async (req, res, next) => {
     try {
@@ -99,4 +97,40 @@ exports.postCartDeleteProduct = async (req, res, next) => {
         }
         next(err);
     }
+}
+
+exports.getOrder = async (req, res, next) => {
+    try {
+        const orders = await req.user.getOrders({ include: ['products'] });
+        res.status(200).json({
+            orders: orders
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}
+
+exports.postOrder = async (req, res, next) => {
+    try {
+        const cart = await req.user.getCart();
+        let products = await cart.getProducts();
+        const order = await req.user.createOrder();
+        let result = await order.addProduct(products.map(product => {
+            product.orderItem = { quantity: product.cartItem.quantity };
+            return product;
+        }));
+        result = await cart.setProducts(null);
+        res.status(200).json({
+            message: 'place order successfully!'
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+
 }

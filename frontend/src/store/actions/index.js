@@ -34,6 +34,18 @@ export {
 } from './shop'
 
 export {
+    fetchOrders,
+    fetchOrdersStart,
+    fetchOrdersSuccess,
+    fetchOrdersFail,
+    placeOrderInit,
+    placeOrder,
+    placeOrderStart,
+    placeOrderSuccess,
+    placeOrderFail
+} from './order'
+
+export {
     adminStateInit,
     fetchAdminProducts,
     fetchAdminProductsStart,

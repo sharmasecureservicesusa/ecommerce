@@ -21,6 +21,10 @@ const Cart = React.lazy(() => {
   return import('./containers/Cart/Cart')
 })
 
+const Orders = React.lazy(() => {
+  return import('./containers/Orders/Orders')
+})
+
 const Admin = React.lazy(() => {
   return import('./containers/Admin/Admin')
 })
@@ -61,6 +65,7 @@ const App = props => {
         <Route path="/auth" render={(props) => <Auth {...props} />} />
         <Route path="/shop" render={(props) => <Shop {...props} />} />
         <Route path="/cart" render={(props) => <Cart {...props} />} />
+        <Route path="/orders" render={(props) => <Orders {...props} />} />
         <Route path="/products/:productId/edit" render={(props) => <EditProduct {...props} />} />
         <Route path="/products/:productId" render={(props) => <SingleProduct {...props} />} />
         <Route path="/admin/add-product" render={(props) => <AddProduct {...props} />} />
