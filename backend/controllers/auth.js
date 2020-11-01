@@ -9,16 +9,16 @@ const Cart = require('../models/cart');
 
 
 exports.signup = async (req, res, next) => {
-    const first_name = req.body.first_name;
-    const last_name = req.body.last_name;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
     const email = req.body.email;
     const password = req.body.password;
 
     try {
         const hashedPassWord = await bcrypt.hash(password, 12);
         const userData = {
-            first_name: first_name,
-            last_name: last_name,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: hashedPassWord,
             created: new Date()

@@ -27,8 +27,8 @@ export function* authUserSaga(action) {
     let url = 'http://localhost:8080/api/auth/login'
     if (action.isSignup) {
         authData = {
-            first_name: action.firstName,
-            last_name: action.lastName,
+            firstName: action.firstName,
+            lastName: action.lastName,
             email: action.email,
             password: action.password,
         }

@@ -3,12 +3,12 @@ const { body } = require('express-validator');
 const User = require('../models/user');
 
 exports.signupValidator = [
-    body('first_name')
+    body('firstName')
         .trim()
         .not()
         .isEmpty()
         .withMessage('Name should not be empty.'),
-    body('last_name')
+    body('lastName')
         .trim()
         .not()
         .isEmpty()
