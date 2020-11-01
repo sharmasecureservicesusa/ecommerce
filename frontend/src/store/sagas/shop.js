@@ -54,8 +54,27 @@ export function* cartAddProductSaga(action) {
             }
         })
         console.log('[cartAddProductSaga] response.data:', response.data)
-        yield put(actions.fetchCartSuccess(response.data.products))
+        yield put(actions.cartAddProductSuccess(response.data.products))
     } catch (error) {
-        yield put(actions.fetchCartFail(error))
+        yield put(actions.cartAddProductFail(error))
+    }
+}
+
+export function* cartDeleteProductSaga(action) {
+    yield put(actions.cartDeleteProductStart())
+    let url = 'http://localhost:8080/api/cart-delete-item/'
+    let productToDelete = {
+        productId: action.productId
+    }
+    try {
+        const response = yield axios.post(url, productToDelete, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        console.log('[cartDeleteProductSaga] response.data:', response.data)
+        yield put(actions.cartDeleteProductSuccess(action.productId))
+    } catch (error) {
+        yield put(actions.cartDeleteProductFail(error))
     }
 }

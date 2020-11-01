@@ -26,7 +26,11 @@ export {
     cartAddProduct,
     cartAddProductStart,
     cartAddProductSuccess,
-    cartAddProductFail
+    cartAddProductFail,
+    cartDeleteProduct,
+    cartDeleteProductStart,
+    cartDeleteProductSuccess,
+    cartDeleteProductFail
 } from './shop'
 
 export {

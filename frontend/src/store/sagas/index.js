@@ -3,7 +3,7 @@ import { takeEvery, all, takeLatest } from 'redux-saga/effects'
 import * as actionTypes from '../actions/actionTypes'
 
 import { logoutSaga, checkAuthTimeoutSaga, authUserSaga, authCheckStateSaga } from './auth'
-import { fetchProductsSaga, fetchSingleProductSaga, fetchCartSaga, cartAddProductSaga } from './shop'
+import { fetchProductsSaga, fetchSingleProductSaga, fetchCartSaga, cartAddProductSaga, cartDeleteProductSaga } from './shop'
 import { fetchAdminProductsSaga, fetchAdminSingleProductSaga, adminAddProductSaga, adminDeleteProductSaga, adminEditProductSaga } from './admin'
 
 export function* watchAuth() {
@@ -20,7 +20,8 @@ export function* watchShop() {
         takeEvery(actionTypes.FETCH_SINGLE_PRODUCT, fetchSingleProductSaga),
         takeEvery(actionTypes.FETCH_PRODUCTS, fetchProductsSaga),
         takeEvery(actionTypes.FETCH_CART, fetchCartSaga),
-        takeEvery(actionTypes.CART_ADD_PRODUCT, cartAddProductSaga)
+        takeEvery(actionTypes.CART_ADD_PRODUCT, cartAddProductSaga),
+        takeEvery(actionTypes.CART_DELETE_PRODUCT, cartDeleteProductSaga)
     ])
 }
 

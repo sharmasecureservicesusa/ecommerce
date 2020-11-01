@@ -105,3 +105,30 @@ export const cartAddProductFail = () => {
         type: actionTypes.CART_ADD_PRODUCT_FAIL
     }
 }
+
+export const cartDeleteProduct = (token, productId) => {
+    return {
+        type: actionTypes.CART_DELETE_PRODUCT,
+        token: token,
+        productId: productId
+    }
+}
+
+export const cartDeleteProductStart = () => {
+    return {
+        type: actionTypes.CART_DELETE_PRODUCT_START
+    }
+}
+
+export const cartDeleteProductSuccess = (productId) => {
+    return {
+        type: actionTypes.CART_DELETE_PRODUCT_SUCCESS,
+        productId: productId
+    }
+}
+
+export const cartDeleteProductFail = () => {
+    return {
+        type: actionTypes.CART_DELETE_PRODUCT_FAIL
+    }
+}

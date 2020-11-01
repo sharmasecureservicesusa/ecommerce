@@ -14,9 +14,16 @@ const Cart = (props) => {
         onFetchCart(token)
     }, [onFetchCart, token])
 
+    const cartDeleteProductHandler = (token, productId) => {
+        props.onCartDeleteProduct(token, productId)
+    }
+
     let cartItems = <Spinner />
     if (!props.loading) {
-        cartItems = <CartItems cartItems={props.cartItems} />
+        cartItems = <CartItems
+            cartItems={props.cartItems}
+            token={props.token}
+            cartDeleteProduct={cartDeleteProductHandler} />
     }
 
     return (
@@ -37,7 +44,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchCart: (token) => dispatch(actions.fetchCart(token))
+        onFetchCart: (token) => dispatch(actions.fetchCart(token)),
+        onCartDeleteProduct: (token, productId) => dispatch(actions.cartDeleteProduct(token, productId))
     }
 }
 

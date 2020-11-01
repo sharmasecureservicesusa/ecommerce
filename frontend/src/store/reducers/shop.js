@@ -89,6 +89,27 @@ const cartAddProductFail = (state, action) => {
     })
 }
 
+const cartDeleteProductStart = (state, action) => {
+    return updateObject(state, {
+        loading: true
+    })
+}
+
+const cartDeleteProductSuccess = (state, action) => {
+    return updateObject(state, {
+        loading: false,
+        cartItems: action.cartItems
+    })
+}
+
+const cartDeleteProductFail = (state, action) => {
+    const updatedCartItems = state.cartItems.filter(p => p.id !== action.productId)
+    return updateObject(state, {
+        loading: false,
+        cartItems: updatedCartItems
+    })
+}
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_PRODUCTS_START:
@@ -115,6 +136,12 @@ const reducer = (state = initialState, action) => {
             return cartAddProductSuccess(state, action)
         case actionTypes.CART_ADD_PRODUCT_FAIL:
             return cartAddProductFail(state, action)
+        case actionTypes.CART_DELETE_PRODUCT_START:
+            return cartDeleteProductStart(state, action)
+        case actionTypes.CART_DELETE_PRODUCT_SUCCESS:
+            return cartDeleteProductSuccess(state, action)
+        case actionTypes.CART_DELETE_PRODUCT_FAIL:
+            return cartDeleteProductFail(state, action)
         default:
             return state
     }

@@ -21,7 +21,7 @@ const CartItems = props => {
                     title={product.title}
                     quantity={product.cartItem.quantity}
                     price={product.price}
-                    deleteCartItem={() => props.deleteCartItem(props.token, product.id)}
+                    cartDeleteProduct={() => props.cartDeleteProduct(props.token, product.id)}
                 />
             ))}
         </ul>

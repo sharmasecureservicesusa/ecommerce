@@ -80,3 +80,23 @@ exports.postCartAddProduct = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.postCartDeleteProduct = async (req, res, next) => {
+    try {
+        const prodId = req.body.productId;
+        const cart = await req.user.getCart();
+        const products = await cart.getProducts({ where: { id: prodId } });
+        const product = products[0];
+        const result = await product.cartItem.destroy();
+        console.log('reulst of delete cart:');
+        console.log(result);
+        res.status(201).json({
+            message: 'Product deleted from cart successfully!'
+        });
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500;
+        }
+        next(err);
+    }
+}

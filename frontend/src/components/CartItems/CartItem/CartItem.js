@@ -18,8 +18,7 @@ const CartItem = (props) => {
                 total$:{props.price * props.quantity}
             </h2>
             <Button to={`/products/${props.id}`} btnType="Success">Detail</Button>
-            <Button clicked={props.addProduct} btnType="Success">Add</Button>
-            <Button clicked={props.decProduct} btnType="Danger">Dec</Button>
+            <Button clicked={props.cartDeleteProduct} btnType="Danger">Del</Button>
         </Card>
     )
     return (
