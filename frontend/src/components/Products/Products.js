@@ -24,6 +24,7 @@ const Products = props => {
                     description={product.description}
                     creatorId={product.userId}
                     isAdmin={props.isAdmin}
+                    cartAddProduct={() => props.cartAddProduct(props.token, product.id)}
                     deleteProduct={() => props.deleteProduct(props.token, product.id)}
                 />
             ))}

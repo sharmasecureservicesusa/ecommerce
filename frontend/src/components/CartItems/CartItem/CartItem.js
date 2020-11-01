@@ -11,11 +11,12 @@ const CartItem = (props) => {
             <h1 className="CartItemTitle">
                 {props.title}
             </h1>
-            <img src={props.imageUrl} alt={props.title} />
             <h2 className="CartItemPrice">
-                ${props.price}
+                quantity:{props.quantity}
             </h2>
-            <h2 className="CartItemQuant">quantity:</h2>
+            <h2 className="CartItemPrice">
+                total$:{props.price * props.quantity}
+            </h2>
             <Button to={`/products/${props.id}`} btnType="Success">Detail</Button>
             <Button clicked={props.addProduct} btnType="Success">Add</Button>
             <Button clicked={props.decProduct} btnType="Danger">Dec</Button>

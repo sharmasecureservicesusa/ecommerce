@@ -14,9 +14,17 @@ const Shop = (props) => {
         onFetchProducts()
     }, [onFetchProducts])
 
+    const cartAddProductHandler = (token, productId) => {
+        console.log('[cartAddProductHandler]')
+        props.onCartAddProduct(token, productId)
+    }
+
     let products = <Spinner />
     if (!props.loading) {
-        products = <Products products={props.products} />
+        products = <Products
+            products={props.products}
+            token={props.token}
+            cartAddProduct={cartAddProductHandler} />
     }
 
     return (
@@ -30,13 +38,15 @@ const Shop = (props) => {
 const mapStateToProps = state => {
     return {
         loading: state.shop.loading,
+        token: state.auth.token,
         products: state.shop.products
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchProducts: () => dispatch(actions.fetchProducts())
+        onFetchProducts: () => dispatch(actions.fetchProducts()),
+        onCartAddProduct: (token, productId) => dispatch(actions.cartAddProduct(token, productId))
     }
 }
 

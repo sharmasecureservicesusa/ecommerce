@@ -14,15 +14,14 @@ const CartItems = props => {
 
     return (
         <ul className="CartItemList">
-            {props.cartItems.map(cartItem => (
+            {props.cartItems.map(product => (
                 <CartItem
-                    key={cartItem.id}
-                    id={cartItem.id}
-                    imageUrl={cartItem.imageUrl}
-                    title={cartItem.title}
-                    price={cartItem.price}
-                    description={cartItem.description}
-                    deleteCartItem={() => props.deleteCartItem(props.token, cartItem.id)}
+                    key={product.id}
+                    id={product.id}
+                    title={product.title}
+                    quantity={product.cartItem.quantity}
+                    price={product.price}
+                    deleteCartItem={() => props.deleteCartItem(props.token, product.id)}
                 />
             ))}
         </ul>

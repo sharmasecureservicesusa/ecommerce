@@ -78,3 +78,30 @@ export const fetchCartFail = () => {
         type: actionTypes.FETCH_CART_FAIL
     }
 }
+
+export const cartAddProduct = (token, productId) => {
+    return {
+        type: actionTypes.CART_ADD_PRODUCT,
+        token: token,
+        productId: productId
+    }
+}
+
+export const cartAddProductStart = () => {
+    return {
+        type: actionTypes.CART_ADD_PRODUCT_START
+    }
+}
+
+export const cartAddProductSuccess = (cartItems) => {
+    return {
+        type: actionTypes.CART_ADD_PRODUCT_SUCCESS,
+        cartItems: cartItems
+    }
+}
+
+export const cartAddProductFail = () => {
+    return {
+        type: actionTypes.CART_ADD_PRODUCT_FAIL
+    }
+}

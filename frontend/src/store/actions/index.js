@@ -22,7 +22,11 @@ export {
     fetchCart,
     fetchCartStart,
     fetchCartSuccess,
-    fetchCartFail
+    fetchCartFail,
+    cartAddProduct,
+    cartAddProductStart,
+    cartAddProductSuccess,
+    cartAddProductFail
 } from './shop'
 
 export {

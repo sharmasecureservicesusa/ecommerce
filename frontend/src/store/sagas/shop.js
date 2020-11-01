@@ -40,3 +40,22 @@ export function* fetchCartSaga(action) {
         yield put(actions.fetchCartFail(error))
     }
 }
+
+export function* cartAddProductSaga(action) {
+    yield put(actions.cartAddProductStart())
+    let url = 'http://localhost:8080/api/cart/'
+    let productToAdd = {
+        productId: action.productId
+    }
+    try {
+        const response = yield axios.post(url, productToAdd, {
+            headers: {
+                Authorization: 'Bearer ' + action.token
+            }
+        })
+        console.log('[cartAddProductSaga] response.data:', response.data)
+        yield put(actions.fetchCartSuccess(response.data.products))
+    } catch (error) {
+        yield put(actions.fetchCartFail(error))
+    }
+}
