@@ -101,7 +101,12 @@ exports.postCartDeleteProduct = async (req, res, next) => {
 
 exports.getOrder = async (req, res, next) => {
     try {
-        const orders = await req.user.getOrders({ include: ['products'] });
+        const orders = await req.user.getOrders({
+            include: [{
+                model: Product,
+                paranoid: false
+            }]
+        });
         res.status(200).json({
             orders: orders
         });

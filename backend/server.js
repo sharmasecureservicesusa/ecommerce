@@ -61,7 +61,7 @@ Product.belongsToMany(Order, { through: OrderItem });
 
 (async () => {
     try {
-        let result = await sequelize.sync(/*{ force: true }*/);
+        let result = await sequelize.sync({ force: true });
         const svg = await sequelizeErd({ engine: 'neato', source: result, arrowSize: 1.2, lineWidth: 1 });
         writeFileSync('./erd.svg', svg);
         app.listen(PORT, () => {

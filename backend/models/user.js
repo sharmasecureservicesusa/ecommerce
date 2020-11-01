@@ -25,14 +25,10 @@ const User = db.define('users',
         password: {
             type: Sequelize.STRING,
             allowNull: false
-        },
-        created: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
         }
     },
     {
-        timestamps: false
+        timestamps: true
     }
 );
 

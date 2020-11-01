@@ -25,14 +25,11 @@ const Product = db.define('products',
         description: {
             type: Sequelize.STRING,
             allowNull: false
-        },
-        created: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
         }
     },
     {
-        timestamps: false
+        timestamps: true,
+        paranoid: true
     }
 );
 
