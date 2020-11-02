@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 // import { Redirect } from 'react-router-dom'
 
-import Products from '../../components/Products/Products'
+import Product from '../../components/Product/Product'
 // import Product from '../../components/Products/Product/Product'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
@@ -29,26 +29,20 @@ const Admin = (props) => {
 
     let products = <Spinner />
     if (adminProducts.length !== 0) {
-        // products = props.products.map(product => {
-        //     return (
-        //         <Product
-        //             key={product.id}
-        //             id={product.id}
-        //             imageUrl={product.imageUrl}
-        //             title={product.title}
-        //             price={product.price}
-        //             description={product.description}
-        //             creatorId={product.userId}
-        //             isAdmin={true}
-        //             deleteProduct={() => deleteProductHandler(token, product.id)}
-        //         />
-        //     )
-        // })
-        products = <Products
-            products={adminProducts}
-            isAdmin={true}
-            token={token}
-            deleteProduct={deleteProductHandler} />
+        products = adminProducts.map(product => (
+            <Product
+                key={product.id}
+                id={product.id}
+                imageUrl={product.imageUrl}
+                title={product.title}
+                price={product.price}
+                description={product.description}
+                stock={product.stock}
+                creatorId={product.userId}
+                isAdmin={true} // TODO: add another state to manage isAdmin
+                deleteProduct={() => deleteProductHandler(props.token, product.id)}
+            />
+        ))
     } else {
         products = <h2>You have no products yet!</h2>
     }
@@ -56,7 +50,9 @@ const Admin = (props) => {
     return (
         <>
             <h1>Admin Page</h1>
-            {products}
+            <div className="ProductList">
+                {products}
+            </div>
         </>
     )
 }

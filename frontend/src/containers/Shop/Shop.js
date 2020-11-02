@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
-import Products from '../../components/Products/Products'
+import Product from '../../components/Product/Product'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
 
@@ -21,17 +21,28 @@ const Shop = (props) => {
 
     let products = <Spinner />
     if (!props.loading) {
-        products = <Products
-            products={props.products}
-            token={props.token}
-            isAuth={props.isAuthenticated}
-            cartAddProduct={cartAddProductHandler} />
+        products = props.products.map(product => (
+            <Product
+                key={product.id}
+                id={product.id}
+                imageUrl={product.imageUrl}
+                title={product.title}
+                price={product.price}
+                description={product.description}
+                stock={product.stock}
+                creatorId={product.userId}
+                isAuth={props.isAuth}
+                cartAddProduct={() => cartAddProductHandler(props.token, product.id)}
+            />
+        ))
     }
 
     return (
         <>
             <h1>Shop Page</h1>
-            {products}
+            <div className="ProductList">
+                {products}
+            </div>
         </>
     )
 }
@@ -40,7 +51,7 @@ const mapStateToProps = state => {
     return {
         loading: state.shop.loading,
         token: state.auth.token,
-        isAuthenticated: state.auth.token !== null,
+        isAuth: state.auth.token !== null,
         products: state.shop.products
     }
 }
