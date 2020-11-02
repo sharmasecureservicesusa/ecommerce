@@ -11,6 +11,7 @@ const CartItem = (props) => {
             <h1 className="CartItemTitle">
                 {props.title}
             </h1>
+            {props.available ? null : <h1>currently unavailable!</h1>}
             <h2 className="CartItemPrice">
                 quantity:{props.quantity}
             </h2>

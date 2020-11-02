@@ -33,7 +33,7 @@ exports.getProduct = async (req, res, next) => {
 exports.getCart = async (req, res, next) => {
     try {
         const cart = await req.user.getCart()
-        const products = await cart.getProducts();
+        const products = await cart.getProducts({ paranoid: false });
         // const cart = await Cart.find({
         //     where: {
         //         userId: 1
@@ -83,7 +83,7 @@ exports.postCartDeleteProduct = async (req, res, next) => {
     try {
         const prodId = req.body.productId;
         const cart = await req.user.getCart();
-        const products = await cart.getProducts({ where: { id: prodId } });
+        const products = await cart.getProducts({ where: { id: prodId }, paranoid: false });
         const product = products[0];
         const result = await product.cartItem.destroy();
         console.log('reulst of delete cart:');

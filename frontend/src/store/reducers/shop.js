@@ -96,9 +96,10 @@ const cartDeleteProductStart = (state, action) => {
 }
 
 const cartDeleteProductSuccess = (state, action) => {
+    const updatedCartItems = state.cartItems.filter(p => p.id !== action.productId)
     return updateObject(state, {
         loading: false,
-        cartItems: action.cartItems
+        cartItems: updatedCartItems
     })
 }
 
