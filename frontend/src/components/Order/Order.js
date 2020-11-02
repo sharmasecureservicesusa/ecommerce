@@ -12,12 +12,12 @@ const Order = props => {
     ))
 
     return (
-        <li className="OrdersItem">
-            <h1>Order - # {props.id}</h1>
+        <ul className="OrdersItem">
+            <h1>Order - # {props.orderId}</h1>
             <ul className="OrdersProducts">
                 {products}
             </ul>
-        </li>
+        </ul>
     );
 };
 

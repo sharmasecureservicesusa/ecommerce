@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
-import CartItem from '../../components/CartItems/CartItem/CartItem'
+import CartItem from '../../components/CartItem/CartItem'
 import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'

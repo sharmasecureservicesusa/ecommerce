@@ -22,6 +22,7 @@ const Orders = (props) => {
             orders = props.orders.map(order => (
                 <Order
                     key={order.id}
+                    orderId={order.id}
                     products={order.products} />
             )
             )
