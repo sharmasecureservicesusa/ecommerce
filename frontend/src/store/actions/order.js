@@ -47,9 +47,10 @@ export const placeOrderStart = () => {
     }
 }
 
-export const placeOrderSuccess = () => {
+export const placeOrderSuccess = (response) => {
     return {
-        type: actionTypes.PLACE_ORDERS_SUCCESS
+        type: actionTypes.PLACE_ORDERS_SUCCESS,
+        response: response
     }
 }
 

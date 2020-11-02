@@ -67,6 +67,20 @@ const AddProduct = (props) => {
             },
             valid: false,
             touched: false
+        },
+        stock: {
+            label: 'stock',
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: '1'
+            },
+            value: '',
+            validation: {
+                required: true
+            },
+            valid: false,
+            touched: false
         }
     })
 
@@ -84,19 +98,20 @@ const AddProduct = (props) => {
     let addProductRedirect = null
     const submitHandler = (event) => {
         event.preventDefault()
-        props.onAdminAddProduct(
-            props.token,
-            productForm.title.value,
-            productForm.price.value,
-            productForm.imageUrl.value,
-            productForm.description.value
-        )
+        let newProduct = {
+            title: productForm.title.value,
+            price: productForm.price.value,
+            imageUrl: productForm.imageUrl.value,
+            description: productForm.description.value,
+            stock: productForm.stock.value
+        }
+        props.onAdminAddProduct(props.token, newProduct)
         // console.log('asyncronous after onAdminAddProducts')
         // history.push(props.adminRedirectPath)
     }
 
     if (props.productAdded) {
-        addProductRedirect = <Redirect to={props.adminRedirectPath}/>
+        addProductRedirect = <Redirect to={props.adminRedirectPath} />
     }
 
     const formElementsArray = []
@@ -139,7 +154,7 @@ const AddProduct = (props) => {
                 <form onSubmit={submitHandler}>
                     {form}
                     {errorMessage}
-                    <Button btnType="Success">SUBMIT</Button>
+                    <Button btnType="Default">SUBMIT</Button>
                 </form>
             </div>
         </>
@@ -159,7 +174,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAdminAddProduct: (token, title, price, imageUrl, description) => dispatch(actions.adminAddProduct(token, title, price, imageUrl, description))
+        onAdminAddProduct: (token, newProduct) => dispatch(actions.adminAddProduct(token, newProduct))
     }
 }
 

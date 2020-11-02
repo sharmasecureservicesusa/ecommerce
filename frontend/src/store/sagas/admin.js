@@ -37,12 +37,7 @@ export function* fetchAdminSingleProductSaga(action) {
 export function* adminAddProductSaga(action) {
     yield put(actions.adminAddProductStart())
     let url = `http://localhost:8080/api/admin/add-product`
-    let newProduct = {
-        title: action.title,
-        price: action.price,
-        imageUrl: action.imageUrl,
-        description: action.description
-    }
+    let newProduct = action.newProduct
     try {
         const response = yield axios.post(url, newProduct, {
             headers: {
@@ -76,15 +71,12 @@ export function* adminDeleteProductSaga(action) {
 export function* adminEditProductSaga(action) {
     yield put(actions.adminEditProductStart())
     let url = `http://localhost:8080/api/admin/edit-product`
-    let EditedProduct = {
+    let editedProductInfo = {
         productId: action.productId,
-        title: action.title,
-        price: action.price,
-        imageUrl: action.imageUrl,
-        description: action.description
+        ...action.editedProduct
     }
     try {
-        const response = yield axios.post(url, EditedProduct, {
+        const response = yield axios.post(url, editedProductInfo, {
             headers: {
                 Authorization: 'Bearer ' + action.token
             }

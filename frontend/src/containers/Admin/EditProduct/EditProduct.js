@@ -67,7 +67,21 @@ const EditProduct = (props) => {
             },
             valid: false,
             touched: false
-        }
+        },
+        stock: {
+            label: 'stock',
+            elementType: 'input',
+            elementConfig: {
+                type: 'text',
+                placeholder: 'stock'
+            },
+            value: '',
+            validation: {
+                required: true
+            },
+            valid: false,
+            touched: false
+        },
     })
     const [isFormEmpty, setIsFormEmpty] = useState(true)
 
@@ -99,6 +113,11 @@ const EditProduct = (props) => {
                 value: props.fetchedProduct.description,
                 valid: true,
                 touched: true
+            }),
+            stock: updateObject(productForm.stock, {
+                value: props.fetchedProduct.stock,
+                valid: true,
+                touched: true
             })
         })
         setProdctForm(updatedForm)
@@ -119,14 +138,14 @@ const EditProduct = (props) => {
     let editProductRedirect = null
     const submitHandler = (event) => {
         event.preventDefault()
-        props.onAdminEditProducts(
-            props.token,
-            productForm.title.value,
-            productForm.price.value,
-            productForm.imageUrl.value,
-            productForm.description.value,
-            productId
-        )
+        let editedProduct = {
+            title: productForm.title.value,
+            price: productForm.price.value,
+            imageUrl: productForm.imageUrl.value,
+            description: productForm.description.value,
+            stock: productForm.stock.value,
+        }
+        props.onAdminEditProducts(props.token, productId, editedProduct)
     }
 
     if (props.productEdited) {
@@ -173,7 +192,7 @@ const EditProduct = (props) => {
                 <form onSubmit={submitHandler}>
                     {form}
                     {errorMessage}
-                    <Button btnType="Success">SUBMIT</Button>
+                    <Button btnType="Default">SUBMIT</Button>
                 </form>
             </div>
         </>
@@ -195,7 +214,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchAdminSingleProduct: (token, userId, productId) => dispatch(actions.fetchAdminSingleProduct(token, userId, productId)),
-        onAdminEditProducts: (token, title, price, imageUrl, description, productId) => dispatch(actions.adminEditProduct(token, title, price, imageUrl, description, productId))
+        onAdminEditProducts: (token, productId, editedProductInfo) => dispatch(actions.adminEditProduct(token, productId, editedProductInfo))
     }
 }
 

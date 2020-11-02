@@ -22,6 +22,7 @@ const Products = props => {
                     title={product.title}
                     price={product.price}
                     description={product.description}
+                    stock={product.stock}
                     creatorId={product.userId}
                     isAuth={props.isAuth}
                     isAdmin={props.isAdmin}

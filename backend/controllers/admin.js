@@ -21,11 +21,6 @@ exports.getAdminProducts = async (req, res, next) => {
 };
 
 exports.postAddProduct = async (req, res, next) => {
-    const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
-    const price = req.body.price;
-    const description = req.body.description;
-
     try {
         // const product = await Product.create({
         //     title: title,
@@ -35,10 +30,11 @@ exports.postAddProduct = async (req, res, next) => {
         //     userId: req.userId
         // });
         const product = await req.user.createProduct({
-            title: title,
-            price: price,
-            imageUrl: imageUrl,
-            description: description,
+            title: req.body.title,
+            price: req.body.price,
+            imageUrl: req.body.imageUrl,
+            description: req.body.description,
+            stock: req.body.stock
         });
         // console.log('[postAddProduct] response', result);
         res.status(201).json({
@@ -98,6 +94,7 @@ exports.postEditProduct = async (req, res, next) => {
         product.price = req.body.price;
         product.imageUrl = req.body.imageUrl;
         product.description = req.body.description;
+        product.stock = req.body.stock;
         const updatedProduct = await product.save();
         res.status(200).json({
             product: updatedProduct

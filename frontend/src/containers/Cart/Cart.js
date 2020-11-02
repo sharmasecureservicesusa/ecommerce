@@ -55,7 +55,7 @@ const Cart = (props) => {
                 </ul>
                 {purchasedRedirect}
                 <form onSubmit={submitHandler}>
-                    <Button disabled={cannotPlaceOeder} btnType="Success">Place Order</Button>
+                    <Button disabled={cannotPlaceOeder} btnType="Default">Place Order</Button>
                 </form>
             </>
     }

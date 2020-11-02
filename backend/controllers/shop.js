@@ -1,3 +1,5 @@
+const sequelize = require('../database/db');
+const { Transaction } = require('sequelize');
 const Product = require('../models/product');
 
 exports.getProducts = async (req, res, next) => {
@@ -119,11 +121,34 @@ exports.getOrder = async (req, res, next) => {
 }
 
 exports.postOrder = async (req, res, next) => {
+    let ts;
     try {
-        const cart = await req.user.getCart();
-        let products = await cart.getProducts();
-        const order = await req.user.createOrder();
-        let result = await order.addProduct(products.map(product => {
+        // start transaction
+        ts = await sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ });
+        // get cart-item (select lock-update to prevent double click)
+        const cart = await req.user.getCart({ lock: ts.LOCK.UPDATE }, { transaction: ts });
+        const products = await cart.getProducts({ lock: ts.LOCK.UPDATE }, { transaction: ts });
+        // check if products are in stock
+        for (let product of products) {
+            if (product.stock === 0 || product.stock - product.cartItem.quantity < 0) {
+                await ts.commit();
+                return res.status(200).json({
+                    success: false,
+                    message: 'currently out of stock!'
+                });
+            }
+        }
+        // update #stock
+        for (let product of products) {
+            console.log(product)
+            await Product.update(
+                { stock: product.stock - product.cartItem.quantity },
+                { where: { id: product.id } },
+                { transaction: ts }
+            )
+        }
+        // add product to order
+        const processedProducts = products.map(product => {
             product.orderItem = {
                 quantity: product.cartItem.quantity,
                 titleSnapshot: product.title,
@@ -132,14 +157,27 @@ exports.postOrder = async (req, res, next) => {
                 descriptionSnapshot: product.description
             };
             return product;
-        }));
-        result = await cart.setProducts(null);
+        });
+        const order = await req.user.createOrder({ transaction: ts });
+        let result = await order.addProduct(processedProducts, { transaction: ts });
+        result = await cart.setProducts(null, { transaction: ts });
+
+        // payment here
+        // ...
+
+        // commit transaction
+        await ts.commit();
+
         res.status(200).json({
+            success: true,
             message: 'place order successfully!'
         });
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
+        }
+        if (ts) {
+            await ts.rollback();
         }
         next(err);
     }

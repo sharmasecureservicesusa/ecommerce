@@ -28,7 +28,7 @@ export function* placeOrderSaga(action) {
             }
         })
         console.log('[placeOrderSaga] response.data:', response.data)
-        yield put(actions.placeOrderSuccess())
+        yield put(actions.placeOrderSuccess(response.data))
     } catch (error) {
         yield put(actions.placeOrderFail(error))
     }

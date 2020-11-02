@@ -25,6 +25,10 @@ const Product = db.define('products',
         description: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        stock: {
+            type: Sequelize.INTEGER,
+            allowNull: false
         }
     },
     {

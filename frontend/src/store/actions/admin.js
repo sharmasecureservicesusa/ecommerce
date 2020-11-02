@@ -63,14 +63,11 @@ export const fetchAdminSingleProductFail = (error) => {
     }
 }
 
-export const adminAddProduct = (token, title, price, imageUrl, description) => {
+export const adminAddProduct = (token, newProduct) => {
     return {
         type: actionTypes.ADMIN_ADD_PRODUCT,
         token: token,
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        description: description
+        newProduct: newProduct
     }
 }
 
@@ -122,15 +119,12 @@ export const adminDeleteProductFail = (error) => {
     }
 }
 
-export const adminEditProduct = (token, title, price, imageUrl, description, productId) => {
+export const adminEditProduct = (token, productId, editedProduct) => {
     return {
         type: actionTypes.ADMIN_EDIT_PRODUCT,
         token: token,
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        description: description,
-        productId: productId
+        productId: productId,
+        editedProduct: editedProduct
     }
 }
 

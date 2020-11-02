@@ -160,7 +160,7 @@ const Auth = props => {
             <form onSubmit={submitHandler}>
                 {form}
                 {errorMessage}
-                <Button btnType="Success">SUBMIT</Button>
+                <Button btnType="Default">SUBMIT</Button>
             </form>
             <Button
                 clicked={switchAuthModeHandler}

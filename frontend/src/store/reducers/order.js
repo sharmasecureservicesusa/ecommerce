@@ -42,7 +42,7 @@ const placeOrderStart = (state, action) => {
 const placeOrderSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
-        purchased: true
+        purchased: action.response.success === true
     })
 }
 
