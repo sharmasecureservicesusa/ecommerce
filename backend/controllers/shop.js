@@ -124,7 +124,13 @@ exports.postOrder = async (req, res, next) => {
         let products = await cart.getProducts();
         const order = await req.user.createOrder();
         let result = await order.addProduct(products.map(product => {
-            product.orderItem = { quantity: product.cartItem.quantity };
+            product.orderItem = {
+                quantity: product.cartItem.quantity,
+                titleSnapshot: product.title,
+                priceSnapshot: product.price,
+                imageUrlSnapshot: product.imageUrl,
+                descriptionSnapshot: product.description
+            };
             return product;
         }));
         result = await cart.setProducts(null);

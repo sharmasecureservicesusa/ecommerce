@@ -76,9 +76,9 @@ exports.getEditProduct = async (req, res, next) => {
     const productId = req.params.productId;
     try {
         // const product = await Product.findByPk(productId);
-        const product = req.user.getProducts({ where: { id: productId } })[0];
+        const product = await req.user.getProducts({ where: { id: productId } });
         res.status(200).json({
-            product: product
+            product: product[0]
         });
     } catch (err) {
         if (!err.statusCode) {

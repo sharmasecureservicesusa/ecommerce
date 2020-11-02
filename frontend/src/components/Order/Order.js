@@ -5,7 +5,10 @@ import './Order.scss'
 const Order = props => {
 
     let products = props.products.map(product => (
-        <li className="OrdersProductsItem" key={product.id}>{product.title}({product.orderItem.quantity})</li>
+        <li className="OrdersProductsItem" key={product.id}>
+            {product.orderItem.titleSnapshot}({product.orderItem.quantity})
+            {product.orderItem.descriptionSnapshot}
+        </li>
     ))
 
     return (

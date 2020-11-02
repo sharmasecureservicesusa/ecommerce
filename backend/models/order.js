@@ -12,7 +12,7 @@ const Order = db.define('order',
         }
     },
     {
-        timestamps: false
+        timestamps: true
     }
 );
 

@@ -80,26 +80,26 @@ const EditProduct = (props) => {
 
     if (isFormEmpty && props.fetchedProduct) {
         const updatedForm = updateObject(productForm, {
-            title: {
+            title: updateObject(productForm.title, {
                 value: props.fetchedProduct.title,
                 valid: true,
                 touched: true
-            },
-            price: {
+            }),
+            price: updateObject(productForm.price, {
                 value: props.fetchedProduct.price,
                 valid: true,
                 touched: true
-            },
-            imageUrl: {
+            }),
+            imageUrl: updateObject(productForm.imageUrl, {
                 value: props.fetchedProduct.imageUrl,
                 valid: true,
                 touched: true
-            },
-            description: {
+            }),
+            description: updateObject(productForm.description, {
                 value: props.fetchedProduct.description,
                 valid: true,
                 touched: true
-            }
+            })
         })
         setProdctForm(updatedForm)
         setIsFormEmpty(false)

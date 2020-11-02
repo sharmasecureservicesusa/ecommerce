@@ -27,7 +27,7 @@ export function* fetchAdminSingleProductSaga(action) {
                 Authorization: 'Bearer ' + action.token
             }
         })
-        // console.log('[fetchAdminProductsSaga] response.data:', response.data)
+        console.log('[fetchAdminProductsSaga] response.data:', response.data)
         yield put(actions.fetchAdminSingleProductSuccess(response.data.product))
     } catch (error) {
         yield put(actions.fetchAdminSingleProductFail(error))
