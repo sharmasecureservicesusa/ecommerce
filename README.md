@@ -1,8 +1,8 @@
 # Ecommerce
 
-A fullstack eCommerce website built with Mysql, Express, React, and Redux.
+A fullstack eCommerce website built with Mysql, Express, React, and Redux. It also integrated Stripe payment gateway.
 
-## ERD Diagram
+## ERD
 ![erd](https://i.imgur.com/w4D1h4a.png)
 
 ## Prerequisites
@@ -10,22 +10,31 @@ A fullstack eCommerce website built with Mysql, Express, React, and Redux.
 - yarn
 - node.js
 - MySQL
+- Stripe account
 
 ## Usage
 
 ### Configure MySQL server:
 1. You may follow [the instrucions](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04) to install and configure MySQL server.
 2. Create a `.env` file in `/backend/` folder:
-    ```
-    HOST=localhost
-    PORT=8080
-    DB_USER=your-db-user-name
-    DB_PASSWORD=your-db-password
-    AUTH_SECRET_KEY=your-jwt-secret-key
-    SENDGRID_API_KEY=your-sendgrid-api-key
-    STRIPE_SECRET_KEY=your-stripe-secret-key
-    ```
-3. Start your MySQL server.
+```
+HOST=localhost
+PORT=8080
+DB_USER=YOUR_DB_USER_NAME
+DB_PASSWORD=YOUR_DB_PASSWORD
+AUTH_SECRET_KEY=YOUR_JWT_SECRET
+SENDGRID_API_KEY=YOUR_SENDGRID_KEY
+STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
+```
+3. Start your MySQL server
+
+### Stripe payment gateway
+1. Create a Stripe account
+2. Create a `.env` file in `/frontend/` folder:
+```
+REACT_APP_STRIPE_PUBLIC_KEY=YOUR_STRIPE_PUBLIC_KEY
+REACT_APP_BACKEND_URL=http://localhost:8080/api
+```
 
 ###  Run backend server:
 ```bash
