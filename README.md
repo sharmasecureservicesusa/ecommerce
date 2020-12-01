@@ -1,9 +1,9 @@
 # Ecommerce
 
-A simple eCommerce website built with Mysql, Express, React, and Redux.
+A fullstack eCommerce website built with Mysql, Express, React, and Redux.
 
 ## ERD Diagram
-![erd](https://i.imgur.com/oYg2XMc.png)
+![erd](https://i.imgur.com/w4D1h4a.png)
 
 ## Prerequisites
 - Ubuntu 18.04 LTS (or later)
@@ -14,12 +14,12 @@ A simple eCommerce website built with Mysql, Express, React, and Redux.
 ## Usage
 
 ### Configure MySQL server:
-1. You may follow [the instrucions]() to install and configure MySQL server.
+1. You may follow [the instrucions](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04) to install and configure MySQL server.
 2. Create a `.env` file in `/backend/` folder:
     ```
     HOST=localhost
     PORT=8080
-    DB_USER=your-user-name
+    DB_USER=your-db-user-name
     DB_PASSWORD=your-db-password
     AUTH_SECRET_KEY=your-jwt-secret-key
     SENDGRID_API_KEY=your-sendgrid-api-key

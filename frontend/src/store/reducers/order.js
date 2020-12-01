@@ -4,7 +4,8 @@ import { updateObject } from '../../shared/utility'
 const initialState = {
     orders: [],
     loading: false,
-    purchased: false
+    purchased: false,
+    // sessionId: null
 }
 
 const fetchOrdersStart = (state, action) => {
@@ -42,7 +43,8 @@ const placeOrderStart = (state, action) => {
 const placeOrderSuccess = (state, action) => {
     return updateObject(state, {
         loading: false,
-        purchased: action.response.success === true
+        purchased: action.response.success === true,
+        // sessionId: action.response.sessionId
     })
 }
 

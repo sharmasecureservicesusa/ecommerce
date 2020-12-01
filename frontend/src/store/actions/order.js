@@ -34,10 +34,14 @@ export const placeOrderInit = () => {
     }
 }
 
-export const placeOrder = (token) => {
+export const placeOrder = (token, amount, userData, stripe, cardElement) => {
     return {
         type: actionTypes.PLACE_ORDERS,
-        token: token
+        token: token,
+        amount: amount,
+        userData: userData,
+        stripe: stripe,
+        cardElement: cardElement
     }
 }
 

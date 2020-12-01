@@ -1,3 +1,6 @@
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
 const sequelize = require('../database/db');
 const { Transaction } = require('sequelize');
 const Product = require('../models/product');
@@ -5,7 +8,6 @@ const Product = require('../models/product');
 exports.getProducts = async (req, res, next) => {
     try {
         const products = await Product.findAll();
-        // console.log('[getProducts]', products);
         res.status(200).json({
             products: products
         });
@@ -88,8 +90,6 @@ exports.postCartDeleteProduct = async (req, res, next) => {
         const products = await cart.getProducts({ where: { id: prodId }, paranoid: false });
         const product = products[0];
         const result = await product.cartItem.destroy();
-        console.log('reulst of delete cart:');
-        console.log(result);
         res.status(201).json({
             message: 'Product deleted from cart successfully!'
         });
@@ -140,11 +140,9 @@ exports.postOrder = async (req, res, next) => {
         }
         // update #stock
         for (let product of products) {
-            console.log(product)
             await Product.update(
                 { stock: product.stock - product.cartItem.quantity },
-                { where: { id: product.id } },
-                { transaction: ts }
+                { where: { id: product.id }, transaction: ts }
             )
         }
         // add product to order
@@ -158,14 +156,40 @@ exports.postOrder = async (req, res, next) => {
             };
             return product;
         });
-        const order = await req.user.createOrder({ transaction: ts });
+        const orderDetail = {
+            total: req.body.amount,
+            shipping: 60,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            address: req.body.address
+        };
+        const order = await req.user.createOrder(orderDetail, { transaction: ts });
         let result = await order.addProduct(processedProducts, { transaction: ts });
         result = await cart.setProducts(null, { transaction: ts });
 
-        // payment here
-        // ...
+        // payment
+        const payment = await stripe.paymentIntents.create({
+            amount: req.body.amount,
+            currency: "USD",
+            payment_method: req.body.id,
+            confirm: true
+        });
+        if (!payment) {
+            throw new Error('Charge unsuccessful');
+        }
 
-        // commit transaction
+        // save payment record and commit transaction
+        let transactionDetail = {
+            code: req.body.id,
+            mode: "Card",
+            type: "Credit",
+            status: "Success"
+        };
+
+        let paymentTransaction = await req.user.createTransaction(transactionDetail, { transaction: ts });
+        await order.addTransaction(paymentTransaction, { transaction: ts });
         await ts.commit();
 
         res.status(200).json({

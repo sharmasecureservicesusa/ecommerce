@@ -1,35 +1,44 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+import CheckoutForm from './CheckoutForm/CheckoutForm'
 
 import CartItem from '../../components/CartItem/CartItem'
-import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import * as actions from '../../store/actions/index'
 
-import './Cart.scss'
+import './Checkout.scss'
 
-const Cart = (props) => {
 
-    const { onFetchCart, token } = props;
+const STRIPE_PUBLIC_KEY = process.env.REACT_APP_STRIPE_PUBLIC_KEY
+const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
+
+const Checkout = props => {
+
+    const { onPlaceOrderInit, purchased, token } = props;
     useEffect(() => {
-        onFetchCart(token)
-    }, [onFetchCart, token])
+        onPlaceOrderInit()
+    }, [onPlaceOrderInit, purchased, token])
 
-    const cartDeleteProductHandler = (token, productId) => {
-        props.onCartDeleteProduct(token, productId)
+    let purchasedRedirect = null
+    if (purchased) {
+        purchasedRedirect = <Redirect to="/orders" />
     }
 
+    let totalPrice = 0
     let cartItems = <Spinner />
     if (!props.loading) {
-        let cannotPlaceOeder = true
         cartItems =
             <>
                 <ul className="CartItemList">
                     {props.cartItems.map(product => {
                         // console.log('deletedAt:', product.deletedAt)
                         if (product.deletedAt === null) {
-                            cannotPlaceOeder = false
+                            // cannotPlaceOeder = false
                         }
+                        totalPrice = totalPrice + product.cartItem.quantity * product.price
                         return <CartItem
                             key={product.id}
                             id={product.id}
@@ -37,22 +46,24 @@ const Cart = (props) => {
                             available={product.deletedAt === null}
                             quantity={product.cartItem.quantity}
                             price={product.price}
-                            cartDeleteProduct={() => cartDeleteProductHandler(token, product.id)}
+                            isCheckout={true}
                         />
                     })}
                 </ul>
-
-                {cannotPlaceOeder ? null : <Button to={`/checkout`} btnType="Default">Checkout</Button>}
             </>
     }
-
     return (
         <>
-            <h1>Cart Page</h1>
+            <h1>Checkout Page</h1>
             {cartItems}
+            {purchasedRedirect}
+            <h1>Total Price: {totalPrice}</h1>
+            <Elements stripe={stripePromise}>
+                <CheckoutForm amount={totalPrice} />
+            </Elements>
         </>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => {
     return {
@@ -65,9 +76,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchCart: (token) => dispatch(actions.fetchCart(token)),
-        onCartDeleteProduct: (token, productId) => dispatch(actions.cartDeleteProduct(token, productId)),
+        onPlaceOrderInit: () => dispatch(actions.placeOrderInit()),
+        onPlaceOrder: (token, stripe, cardElement) => dispatch(actions.placeOrder(token, stripe, cardElement))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

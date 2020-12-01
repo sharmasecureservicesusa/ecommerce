@@ -6,6 +6,12 @@ import Button from '../UI/Button/Button'
 import './CartItem.scss'
 
 const CartItem = (props) => {
+    let operation = (
+        <>
+            <Button to={`/products/${props.id}`} btnType="Default">Detail</Button>
+            <Button clicked={props.cartDeleteProduct} btnType="Danger">Del</Button>
+        </>
+    )
     let cartItem = (
         <Card className="CartItem">
             <h1 className="CartItemTitle">
@@ -18,8 +24,8 @@ const CartItem = (props) => {
             <h2 className="CartItemPrice">
                 total$:{props.price * props.quantity}
             </h2>
-            <Button to={`/products/${props.id}`} btnType="Default">Detail</Button>
-            <Button clicked={props.cartDeleteProduct} btnType="Danger">Del</Button>
+
+            {props.isCheckout ? null : operation}
         </Card>
     )
     return (

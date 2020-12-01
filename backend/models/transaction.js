@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 const db = require('../database/db');
 
-const Order = db.define('order',
+const Transaction = db.define('transaction',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -10,33 +10,25 @@ const Order = db.define('order',
             autoIncrement: true,
             allowNull: false
         },
-        total: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        shipping: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        firstName: {
+        code: { // Payment id provided my payment gateway
             type: Sequelize.STRING,
             allowNull: false
         },
-        lastName: {
+        mode: { // Cash On Delivery, Card...
             type: Sequelize.STRING,
             allowNull: false
         },
-        email: {
+        type: { // Credit, Debit
             type: Sequelize.STRING,
             allowNull: false
         },
-        mobile: {
+        status: { // New, Cancelled, Failed, Pending, Declined, Rejected, Success
             type: Sequelize.STRING,
             allowNull: false
         },
-        address: {
+        content: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
         }
     },
     {
@@ -44,4 +36,4 @@ const Order = db.define('order',
     }
 );
 
-module.exports = Order;
+module.exports = Transaction;

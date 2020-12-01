@@ -12,6 +12,7 @@ const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
 const Order = require('./models/order');
 const OrderItem = require('./models/order-item');
+const Transaction = require('./models/transaction');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -58,6 +59,11 @@ User.hasMany(Order)
 // order <--> product (many-to-many)
 Order.belongsToMany(Product, { through: OrderItem });
 Product.belongsToMany(Order, { through: OrderItem });
+// transaction
+Transaction.belongsTo(User);
+User.hasMany(Transaction);
+Transaction.belongsTo(Order);
+Order.hasMany(Transaction);
 
 (async () => {
     try {
