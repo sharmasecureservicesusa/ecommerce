@@ -171,7 +171,7 @@ exports.postOrder = async (req, res, next) => {
 
         // payment
         const payment = await stripe.paymentIntents.create({
-            amount: req.body.amount,
+            amount: req.body.amount * 100,
             currency: "USD",
             payment_method: req.body.id,
             confirm: true

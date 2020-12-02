@@ -5,6 +5,7 @@ import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { updateObject, checkValidity } from '../../../shared/utility'
 import Input from '../../../components/UI/Input/Input'
 import Button from '../../../components/UI/Button/Button'
+import Spinner from '../../../components/UI/Spinner/Spinner'
 import * as actions from '../../../store/actions/index'
 
 import './CheckoutForm.scss'
@@ -67,7 +68,7 @@ const CheckoutForm = (props) => {
             value: '',
             validation: {
                 required: true,
-                isEmail: true
+                isEmail: false
             },
             valid: false,
             touched: false
@@ -175,17 +176,25 @@ const CheckoutForm = (props) => {
             </form>
         </div>
     )
-    return (
-        <>
+    
+    let form = (
+        <div>
+            {props.loading ? <Spinner /> : null}
             {userDataForm}
             {creditCardForm}
+        </div>
+    )
+
+    return (
+        <>
+            {form}
         </>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        loading: state.shop.loading,
+        loading: state.order.loading,
         token: state.auth.token,
         cartItems: state.shop.cartItems
     }

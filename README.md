@@ -1,9 +1,9 @@
 # Ecommerce
 
-A fullstack eCommerce website built with Mysql, Express, React, and Redux. It also integrated Stripe payment gateway.
+A fullstack eCommerce website built with Mysql, Express, React, and Redux. Integrated Stripe payment gateway.
 
-## ERD
-![erd](https://i.imgur.com/w4D1h4a.png)
+## Entity Relationship Diagram (ERD)
+![erd](https://i.imgur.com/do6NWyr.png)
 
 ## Prerequisites
 - Ubuntu 18.04 LTS (or later)
@@ -28,7 +28,7 @@ STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 ```
 3. Start your MySQL server
 
-### Stripe payment gateway
+### Stripe payment gateway:
 1. Create a Stripe account
 2. Create a `.env` file in `/frontend/` folder:
 ```
