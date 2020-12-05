@@ -28,6 +28,7 @@ export function* placeOrderSaga(action) {
         });
         if (error) {
             console.log('[error]', error);
+            throw new Error(error);
         } else {
             console.log('[PaymentMethod]', paymentMethod);
         }

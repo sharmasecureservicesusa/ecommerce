@@ -125,9 +125,12 @@ exports.postOrder = async (req, res, next) => {
     try {
         // start transaction
         ts = await sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ });
+
         // get cart-item (select lock-update to prevent double click)
         const cart = await req.user.getCart({ lock: ts.LOCK.UPDATE }, { transaction: ts });
+        // select lock-update to lock other carts/users from being able to read those products
         const products = await cart.getProducts({ lock: ts.LOCK.UPDATE }, { transaction: ts });
+
         // check if products are in stock
         for (let product of products) {
             if (product.stock === 0 || product.stock - product.cartItem.quantity < 0) {
@@ -138,6 +141,7 @@ exports.postOrder = async (req, res, next) => {
                 });
             }
         }
+
         // update #stock
         for (let product of products) {
             await Product.update(
@@ -145,6 +149,7 @@ exports.postOrder = async (req, res, next) => {
                 { where: { id: product.id }, transaction: ts }
             )
         }
+
         // add product to order
         const processedProducts = products.map(product => {
             product.orderItem = {
@@ -166,10 +171,10 @@ exports.postOrder = async (req, res, next) => {
             address: req.body.address
         };
         const order = await req.user.createOrder(orderDetail, { transaction: ts });
-        let result = await order.addProduct(processedProducts, { transaction: ts });
-        result = await cart.setProducts(null, { transaction: ts });
+        await order.addProduct(processedProducts, { transaction: ts });
+        await cart.setProducts(null, { transaction: ts });
 
-        // payment
+        // stripe payment
         const payment = await stripe.paymentIntents.create({
             amount: req.body.amount * 100,
             currency: "USD",
@@ -187,7 +192,6 @@ exports.postOrder = async (req, res, next) => {
             type: "Credit",
             status: "Success"
         };
-
         let paymentTransaction = await req.user.createTransaction(transactionDetail, { transaction: ts });
         await order.addTransaction(paymentTransaction, { transaction: ts });
         await ts.commit();
@@ -200,6 +204,7 @@ exports.postOrder = async (req, res, next) => {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
+        // issue a rollback when error occurs
         if (ts) {
             await ts.rollback();
         }
