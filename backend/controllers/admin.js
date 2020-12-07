@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const db = require('../database/db');
 
 exports.getAdminProducts = async (req, res, next) => {
     try {
@@ -52,7 +53,7 @@ exports.postAddProduct = async (req, res, next) => {
 exports.postDeleteProduct = async (req, res, next) => {
     const productId = req.body.productId;
     try {
-        const result = await Product.destroy({
+        const result = await db.Product.destroy({
             where: {
                 id: productId
             }
@@ -89,7 +90,7 @@ exports.postEditProduct = async (req, res, next) => {
     // const productId = req.params.productId;
     const productId = req.body.productId;
     try {
-        const product = await Product.findByPk(productId);
+        const product = await db.Product.findByPk(productId);
         product.title = req.body.title;
         product.price = req.body.price;
         product.imageUrl = req.body.imageUrl;

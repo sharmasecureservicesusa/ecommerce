@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 
-const User = require('../models/user');
+const db = require('../database/db');
 
 exports.signupValidator = [
     body('firstName')
@@ -17,7 +17,7 @@ exports.signupValidator = [
         .isEmail()
         .withMessage('Please enter a valid email.')
         .custom((value, { req }) => {
-            return User.findOne({
+            return db.User.findOne({
                 where: {
                     email: req.body.email
                 }

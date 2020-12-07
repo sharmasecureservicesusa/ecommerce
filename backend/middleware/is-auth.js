@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const User = require('../models/user');
+const db = require('../database/db');
 
 // to protect routes that require authentication
 module.exports = async (req, res, next) => {
@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
 
         // put user into req.user after login
         // maybe we can put it in global variable (req.local.user) after login
-        const user = await User.findOne({ where: { id: decodedToken.id } });
+        const user = await db.User.findOne({ where: { id: decodedToken.id } });
         req.user = user;
         next();
     } catch (err) {

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: frontend
+          image: jared0306/frontend
+          ports:
+            - containerPort: 3000
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: frontend-srv
+# spec:
+#   selector:
+#     app: frontend
+#   ports:
+#     - name: frontend
+#       protocol: TCP
+#       port: 3000
+#       targetPort: 3000
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    component: web
+  ports:
+    - port: 3000
+      targetPort: 3000

@@ -1,15 +1,14 @@
 # Ecommerce
 
-A fullstack eCommerce website built with Mysql, Express, React, and Redux. Integrated Stripe payment gateway.
+A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and Redux. Integrated Stripe payment gateway.
 
 ## Entity Relationship Diagram (ERD)
 ![erd](https://i.imgur.com/do6NWyr.png)
 
 ## Prerequisites
-- Ubuntu 18.04 LTS (or later)
-- yarn
-- node.js
-- MySQL
+- Docker
+- Kubernetes (minikube)
+- Skaffold
 - Stripe account
 
 ## Usage
@@ -33,21 +32,23 @@ STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 2. Create a `.env` file in `/frontend/` folder:
 ```
 REACT_APP_STRIPE_PUBLIC_KEY=YOUR_STRIPE_PUBLIC_KEY
-REACT_APP_BACKEND_URL=http://localhost:8080/api
+REACT_APP_BACKEND_URL=/api
 ```
 
-###  Run backend server:
+###  Run Locally
+1. Start minikube
 ```bash
-$ cd backend
-$ yarn # install dependencies for the first time
-$ yarn start
+$ minikube start
 ```
 
-### Run React frontend:
+2. Enable ingress service
 ```bash
-$ cd frontend
-$ yarn # install dependencies for the first time
-$ yarn start
+$ minikube addons enable ingress
+```
+
+3. Run skaffold
+```bash
+$ skaffold dev
 ```
 
 ## A star would be nice if you like it!

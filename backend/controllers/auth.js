@@ -1,12 +1,10 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+// const sgMail = require('@sendgrid/mail');
+// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const User = require('../models/user');
-const Cart = require('../models/cart');
-
+const db = require('../database/db');
 
 exports.signup = async (req, res, next) => {
     const firstName = req.body.firstName;
@@ -23,8 +21,8 @@ exports.signup = async (req, res, next) => {
             password: hashedPassWord,
             created: new Date()
         }
-        const createdUser = await User.create(userData);
-        const createdCart = await Cart.create({ userId: createdUser.id });
+        const createdUser = await db.User.create(userData);
+        const createdCart = await db.Cart.create({ userId: createdUser.id });
         // const createdCart = await createdUser.createCart();
 
         // sign user in after signup, or redirect to login page in frontend
@@ -53,7 +51,7 @@ exports.login = async (req, res, next) => {
     let loadedUser;
     try {
         // check if email exist
-        const user = await User.findOne({
+        const user = await db.User.findOne({
             where: {
                 email: email
             }

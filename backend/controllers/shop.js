@@ -3,11 +3,11 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 const sequelize = require('../database/db');
 const { Transaction } = require('sequelize');
-const Product = require('../models/product');
+const db = require('../database/db');
 
 exports.getProducts = async (req, res, next) => {
     try {
-        const products = await Product.findAll();
+        const products = await db.Product.findAll();
         res.status(200).json({
             products: products
         });
@@ -22,7 +22,7 @@ exports.getProducts = async (req, res, next) => {
 exports.getProduct = async (req, res, next) => {
     try {
         const prodId = req.params.productId;
-        const product = await Product.findByPk(prodId);
+        const product = await db.Product.findByPk(prodId);
         res.status(200).json({
             product: product
         });
@@ -69,7 +69,7 @@ exports.postCartAddProduct = async (req, res, next) => {
             const oldQuantity = product.cartItem.quantity;
             newQuantity = oldQuantity + 1;
         } else {
-            product = await Product.findByPk(prodId);
+            product = await db.Product.findByPk(prodId);
         }
         let result = await cart.addProduct(product, { through: { quantity: newQuantity } });
         res.status(200).json({
@@ -105,7 +105,7 @@ exports.getOrder = async (req, res, next) => {
     try {
         const orders = await req.user.getOrders({
             include: [{
-                model: Product,
+                model: db.Product,
                 paranoid: false
             }]
         });
@@ -144,7 +144,7 @@ exports.postOrder = async (req, res, next) => {
 
         // update #stock
         for (let product of products) {
-            await Product.update(
+            await db.Product.update(
                 { stock: product.stock - product.cartItem.quantity },
                 { where: { id: product.id }, transaction: ts }
             )

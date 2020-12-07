@@ -1,0 +1,75 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: backend-depl
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: backend
+#   template:
+#     metadata:
+#       labels:
+#         app: backend
+#     spec:
+#       containers:
+#         - name: backend
+#           image: jared0306/backend
+#           ports:
+#             - containerPort: 8080
+#           env:
+#             - name: DB_HOST
+#               value: ecommerce-mysql-clusterip-srv
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: jared0306/backend
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USER
+              value: root
+            - name: DB_HOST
+              value: mysql-clusterip-srv
+            - name: DB_PORT
+              value: '3306'
+            - name: DB_DATABASE
+              value: ecommerce
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            # - name: DB_USER
+            #   value: postgres
+            # - name: DB_HOST
+            #   value: postgres-clusterip-service
+            # - name: DB_PORT
+            #   value: "5432"
+            # - name: DB_DATABASE
+            #   value: postgres
+            # - name: POSTGRES_PASSWORD
+            #   value: password
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    component: backend
+  ports:
+    - port: 8080
+      targetPort: 8080
