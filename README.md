@@ -1,6 +1,8 @@
 # Ecommerce
 
-A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and Redux. Integrated Stripe payment gateway.
+A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and Redux. Integrated Stripe payment gateway. Uses Docker to containerize services and Kubernetes to manage containers.
+
+![](https://i.imgur.com/g57HueB.png)
 
 ## Entity Relationship Diagram (ERD)
 ![erd](https://i.imgur.com/do6NWyr.png)
@@ -11,42 +13,34 @@ A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and R
 - Skaffold
 - Stripe account
 
-## Usage
+## Run Locally
 
-### Configure MySQL server:
-1. You may follow [the instrucions](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04) to install and configure MySQL server.
-2. Create a `.env` file in `/backend/` folder:
+1. Create a `.env` file in `/backend/` folder:
 ```
 HOST=localhost
 PORT=8080
-DB_USER=YOUR_DB_USER_NAME
-DB_PASSWORD=YOUR_DB_PASSWORD
 AUTH_SECRET_KEY=YOUR_JWT_SECRET
 SENDGRID_API_KEY=YOUR_SENDGRID_KEY
 STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 ```
-3. Start your MySQL server
 
-### Stripe payment gateway:
-1. Create a Stripe account
 2. Create a `.env` file in `/frontend/` folder:
 ```
 REACT_APP_STRIPE_PUBLIC_KEY=YOUR_STRIPE_PUBLIC_KEY
 REACT_APP_BACKEND_URL=/api
 ```
 
-###  Run Locally
-1. Start minikube
+3. Start minikube
 ```bash
 $ minikube start
 ```
 
-2. Enable ingress service
+4. Enable ingress service
 ```bash
 $ minikube addons enable ingress
 ```
 
-3. Run skaffold
+5. Run skaffold
 ```bash
 $ skaffold dev
 ```
