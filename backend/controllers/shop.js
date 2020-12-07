@@ -1,7 +1,6 @@
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-const sequelize = require('../database/db');
 const { Transaction } = require('sequelize');
 const db = require('../database/db');
 
@@ -124,7 +123,7 @@ exports.postOrder = async (req, res, next) => {
     let ts;
     try {
         // start transaction
-        ts = await sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ });
+        ts = await db.sequelize.transaction({ isolationLevel: Transaction.ISOLATION_LEVELS.REPEATABLE_READ });
 
         // get cart-item (select lock-update to prevent double click)
         const cart = await req.user.getCart({ lock: ts.LOCK.UPDATE }, { transaction: ts });
