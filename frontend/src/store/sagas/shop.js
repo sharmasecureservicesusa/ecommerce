@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export function* fetchProductsSaga(action) {
     yield put(actions.fetchProductsStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/products/'
+    let url = '/api/products/'
     try {
         const response = yield axios.get(url)
         yield put(actions.fetchProductsSuccess(response.data.products))
@@ -15,7 +15,7 @@ export function* fetchProductsSaga(action) {
 
 export function* fetchSingleProductSaga(action) {
     yield put(actions.fetchSingleProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/products/' + action.productId
+    let url = '/api/products/' + action.productId
     try {
         const response = yield axios.get(url)
         console.log('[fetchSingleProductSaga] response.data:', response.data)
@@ -27,7 +27,7 @@ export function* fetchSingleProductSaga(action) {
 
 export function* fetchCartSaga(action) {
     yield put(actions.fetchCartStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/cart/'
+    let url = '/api/cart/'
     try {
         const response = yield axios.get(url, {
             headers: {
@@ -43,7 +43,7 @@ export function* fetchCartSaga(action) {
 
 export function* cartAddProductSaga(action) {
     yield put(actions.cartAddProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/cart/'
+    let url = '/api/cart/'
     let productToAdd = {
         productId: action.productId
     }
@@ -62,7 +62,7 @@ export function* cartAddProductSaga(action) {
 
 export function* cartDeleteProductSaga(action) {
     yield put(actions.cartDeleteProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/cart-delete-item/'
+    let url = '/api/cart-delete-item/'
     let productToDelete = {
         productId: action.productId
     }

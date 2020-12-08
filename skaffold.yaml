@@ -12,7 +12,7 @@ build:
     - image: jared0306/backend
       context: backend
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: "**/*.js"
@@ -20,7 +20,7 @@ build:
     - image: jared0306/frontend
       context: frontend
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: "src/**/*.js"

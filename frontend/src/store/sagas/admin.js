@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export function* fetchAdminProductsSaga(action) {
     yield put(actions.fetchAdminProductsStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/admin/products/'
+    let url = '/api/admin/products/'
     try {
         const response = yield axios.get(url, {
             headers: {
@@ -20,7 +20,7 @@ export function* fetchAdminProductsSaga(action) {
 
 export function* fetchAdminSingleProductSaga(action) {
     yield put(actions.fetchAdminSingleProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/admin/edit-product/' + action.productId
+    let url = '/api/admin/edit-product/' + action.productId
     try {
         const response = yield axios.get(url, {
             headers: {
@@ -36,7 +36,7 @@ export function* fetchAdminSingleProductSaga(action) {
 
 export function* adminAddProductSaga(action) {
     yield put(actions.adminAddProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/admin/add-product'
+    let url = '/api/admin/add-product'
     let newProduct = action.newProduct
     try {
         const response = yield axios.post(url, newProduct, {
@@ -52,7 +52,7 @@ export function* adminAddProductSaga(action) {
 
 export function* adminDeleteProductSaga(action) {
     yield put(actions.adminDeleteProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/admin/delete-product'
+    let url = '/api/admin/delete-product'
     let productToDelete = {
         productId: action.productId
     }
@@ -70,7 +70,7 @@ export function* adminDeleteProductSaga(action) {
 
 export function* adminEditProductSaga(action) {
     yield put(actions.adminEditProductStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/admin/edit-product'
+    let url = '/api/admin/edit-product'
     let editedProductInfo = {
         productId: action.productId,
         ...action.editedProduct

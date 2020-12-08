@@ -24,7 +24,7 @@ export function* authUserSaga(action) {
         email: action.email,
         password: action.password,
     }
-    let url = process.env.REACT_APP_BACKEND_URL + '/auth/login'
+    let url = '/api/auth/login'
     if (action.isSignup) {
         authData = {
             firstName: action.firstName,
@@ -32,7 +32,7 @@ export function* authUserSaga(action) {
             email: action.email,
             password: action.password,
         }
-        url = process.env.REACT_APP_BACKEND_URL + '/auth/signup'
+        url = '/api/auth/signup'
     }
     try {
         const response = yield axios.post(url, authData)

@@ -13,9 +13,9 @@ spec:
         paths:
           - path: /?(.*)
             backend:
-              serviceName: frontend-clusterip-srv
+              serviceName: frontend-srv
               servicePort: 3000
           - path: /api/?(.*)
             backend:
-              serviceName: backend-clusterip-srv
+              serviceName: backend-srv
               servicePort: 8080

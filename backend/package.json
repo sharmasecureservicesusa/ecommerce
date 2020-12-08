@@ -6,7 +6,8 @@
     "license": "MIT",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon server.js"
+        "dev": "nodemon server.js",
+        "start": "node server.js"
     },
     "devDependencies": {
         "nodemon": "^2.0.6",

@@ -1,91 +1,3 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: mysql
-# spec:
-#   selector:
-#     matchLabels:
-#       component: mysql
-#   strategy:
-#     type: Recreate
-#   template:
-#     metadata:
-#       labels:
-#         component: mysql
-#     spec:
-#       containers:
-#         - image: mysql
-#           name: mysql
-#           env:
-#             - name: MYSQL_ROOT_PASSWORD
-#               value: password
-#           ports:
-#             - containerPort: 3306
-#               name: mysql
-#           volumeMounts:
-#             - name: mysql-persistent-storage
-#               mountPath: /var/lib/mysql
-#       volumes:
-#         - name: mysql-persistent-storage
-#           persistentVolumeClaim:
-#             claimName: database-persistent-volume-claim
-# # kind: Deployment
-# # metadata:
-# #   name: mysql
-# # spec:
-# #   replicas: 1
-# #   selector:
-# #     matchLabels:
-# #       app: mysql
-# #   template:
-# #     metadata:
-# #       labels:
-# #         app: mysql
-# #     spec:
-# #       containers:
-# #         - name: mysql
-# #           image: mysql
-# #           env:
-# #             # - name: MYSQL_ROOT_PASSWORD
-# #             #   value: password
-# #             - name: MYSQL_ROOT_PASSWORD
-# #               value: password
-# #             - name: MYSQL_DATABASE
-# #               value: database
-# #           ports:
-# #             - containerPort: 3306
-# #           volumeMounts:
-# #             - name: mysql-persistent-storage
-# #               mountPath: /var/lib/mysql
-# #       volumes:
-# #         - name: mysql-persistent-storage
-# #           persistentVolumeClaim:
-# #             claimName: database-persistent-volume-claim
-# ---
-# # apiVersion: v1
-# # kind: Service
-# # metadata:
-# #   name: ecommerce-mysql-srv
-# # spec:
-# #   selector:
-# #     app: ecommerce-mysql
-# #   ports:
-# #     - name: db
-# #       protocol: TCP
-# #       port: 3306
-# #       targetPort: 3306
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: mysql-clusterip-srv
-# spec:
-#   type: ClusterIP
-#   selector:
-#     component: mysql
-#   ports:
-#     - port: 3306
-#       targetPort: 3306
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -115,7 +27,10 @@ spec:
               subPath: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-password
+                  key: MYSQL_ROOT_PASSWORD
 ---
 apiVersion: v1
 kind: Service
@@ -128,4 +43,3 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
-

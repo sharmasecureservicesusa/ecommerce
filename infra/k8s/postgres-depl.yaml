@@ -1,7 +1,7 @@
 # apiVersion: apps/v1
 # kind: Deployment
 # metadata:
-#   name: postgres-deployment
+#   name: postgres-depl
 # spec:
 #   replicas: 1
 #   selector:
@@ -27,12 +27,15 @@
 #               subPath: postgres
 #           env:
 #             - name: POSTGRES_PASSWORD
-#               value: password
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: pgpassword
+#                   key: POSTGRES_PASSWORD
 # ---
 # apiVersion: v1
 # kind: Service
 # metadata:
-#   name: postgres-clusterip-service
+#   name: postgres-clusterip-srv
 # spec:
 #   type: ClusterIP
 #   selector:

@@ -4,8 +4,8 @@ WORKDIR '/app'
 
 COPY ["package.json", "yarn.lock", "./"]
 
-RUN yarn && yarn cache clean
+RUN yarn
 
 COPY . .
 
-CMD ["yarn", "build"]
+CMD ["yarn", "start"]

@@ -12,7 +12,7 @@ import * as actions from '../../store/actions/index'
 import './Checkout.scss'
 
 
-const STRIPE_PUBLIC_KEY = process.env.REACT_APP_STRIPE_PUBLIC_KEY
+const STRIPE_PUBLIC_KEY = 'pk_test_51Hj1rlIjB7ZFyfMc6w2CEobfbyyO6cHPpazxPLPh9bMfGrnE4qbeSGhl2ElWlsjT5ClVHM7tIKb7HOvXC4TdQT1R00GiiO1G05'
 const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
 const Checkout = props => {

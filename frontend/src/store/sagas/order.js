@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export function* fetchOrdersSaga(action) {
     yield put(actions.fetchOrdersStart())
-    let url =  process.env.REACT_APP_BACKEND_URL + '/order/'
+    let url =  '/api/order/'
     try {
         const response = yield axios.get(url, {
             headers: {
@@ -20,7 +20,7 @@ export function* fetchOrdersSaga(action) {
 
 export function* placeOrderSaga(action) {
     yield put(actions.placeOrderStart())
-    let url = process.env.REACT_APP_BACKEND_URL + '/create-order'
+    let url = '/api/create-order'
     try {
         const { error, paymentMethod } = yield action.stripe.createPaymentMethod({
             type: 'card',

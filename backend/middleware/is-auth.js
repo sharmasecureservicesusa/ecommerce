@@ -14,7 +14,7 @@ module.exports = async (req, res, next) => {
             throw new Error('Authentication failed!');
         }
 
-        const decodedToken = jwt.verify(token, process.env.AUTH_SECRET_KEY);
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
         if (!decodedToken) {
             const error = new Error('Not authenticated');
             error.statusCode = 401;
