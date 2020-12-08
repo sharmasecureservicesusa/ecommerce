@@ -15,16 +15,16 @@ A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and R
 
 ## Run Locally
 
-1. Inject environment variables into Kubernetes
+1. Start minikube
+```bash
+$ minikube start
+```
+
+2. Inject environment variables into Kubernetes
 ```bash
 $ kubectl create secret generic jwt-secret-key --from-literal JWT_SECRET_KEY=YOUR_JWT_SECRET
 $ kubectl create secret generic stripe-secret-key --from-literal STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
 $ kubectl create secret generic mysql-password --from-literal MYSQL_ROOT_PASSWORD=YOUR_DB_PASSWORD
-```
-
-2. Start minikube
-```bash
-$ minikube start
 ```
 
 3. Enable NGINX ingress controller
