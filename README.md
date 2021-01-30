@@ -2,14 +2,16 @@
 
 A fullstack eCommerce website built with MySQL/PostgresQL, Express, React, and Redux. Integrated Stripe payment gateway. Uses Docker to containerize services and Kubernetes to manage containers.
 
-![](https://i.imgur.com/g57HueB.png)
+<p align="center">
+    <img src="https://i.imgur.com/5UdYRCl.png" />
+</p>
 
 ## Entity Relationship Diagram (ERD)
 ![erd](https://i.imgur.com/do6NWyr.png)
 
 ## Prerequisites
 - Docker
-- Kubernetes (minikube)
+- Kubernetes (Minikube)
 - Skaffold
 - Stripe account
 
@@ -27,7 +29,7 @@ $ kubectl create secret generic stripe-secret-key --from-literal STRIPE_SECRET_K
 $ kubectl create secret generic mysql-password --from-literal MYSQL_ROOT_PASSWORD=YOUR_DB_PASSWORD
 ```
 
-3. Enable NGINX ingress controller
+3. Enable NGINX ingress controller (Go to the [official doc](https://kubernetes.github.io/ingress-nginx/deploy/) to find instructions that suit your platform)
 ```bash
 $ minikube addons enable ingress
 ```
